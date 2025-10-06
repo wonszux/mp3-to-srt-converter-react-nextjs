@@ -89,15 +89,8 @@ export default function HeaderMegaMenu() {
   return (
     <Box pb={120}>
       <header className={classes.header}>
-        <Group justify="space-between" h="100%" mx="15rem">
-          <Image
-            radius="md"
-            h={30}
-            w="auto"
-            fit="contain"
-            src="/logo.svg"
-            alt="Logo"
-          />
+        <Group justify="space-between" h="100%" mx="18rem">
+          <Image h={30} w="auto" fit="contain" src="/logo.svg" alt="Logo" />
           <Group align="center" ml={25}>
             <a href="#" className={classes.link}>
               Home

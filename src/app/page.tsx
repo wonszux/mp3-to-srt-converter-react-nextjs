@@ -1,10 +1,11 @@
-import { Box } from "@mantine/core";
-import HeroContentLeft from "@/components/hero/Hero";
+import HeroContent from "@/components/hero/Hero";
+import FileInput from "@/components/fileInput/fileinput";
 
 export default function Demo() {
   return (
-    <Box>
-      <HeroContentLeft />
-    </Box>
+    <>
+      <HeroContent />
+      <FileInput />
+    </>
   );
 }
