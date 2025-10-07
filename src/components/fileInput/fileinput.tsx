@@ -1,41 +1,78 @@
-import { Button, Container, Stack } from "@mantine/core";
-import { IconFileDownload } from "@tabler/icons-react";
+"use client";
+
+import { Button, Container, Stack, Text, TextInput } from "@mantine/core";
+import { IconFileDownload, IconLink } from "@tabler/icons-react";
+import { useState } from "react";
 
 export default function FileInput() {
+  const [active, setActive] = useState("file");
+
   return (
     <Container
       style={{
-        maxWidth: 700,
-        paddingTop: 20,
-        paddingBottom: 20,
+        display: "flex",
         justifyContent: "center",
         border: "solid 1px gray",
+        paddingTop: 20,
+        paddingBottom: 20,
+        paddingLeft: 20,
+        paddingRight: 20,
         alignItems: "center",
-        borderRadius: 8,
+        borderRadius: 35,
       }}
     >
       <Stack>
-        <Container>
-          <Button variant="filled" color="dark">
-            Learn more
+        <Container
+          style={{
+            display: "flex",
+            gap: "10px",
+          }}
+        >
+          <Button
+            variant="light"
+            color={active === "file" ? "orange" : "gray"}
+            onClick={() => setActive("file")}
+            radius={6}
+          >
+            Prześlij plik
           </Button>
-          <Button variant="filled" color="gray">
-            Learn more
+          <Button
+            variant="light"
+            color={active === "link" ? "orange" : "gray"}
+            onClick={() => setActive("link")}
+            radius={6}
+          >
+            Wklej link
           </Button>
         </Container>
         <Container
           style={{
             display: "flex",
             justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 8,
             border: "dashed 1px gray",
-            minWidth: 600,
+            minWidth: 913,
             minHeight: 300,
+            borderRadius: 15,
             background: "#303030ff",
           }}
         >
-          <IconFileDownload size={50} />
+          {active === "file" ? (
+            <Stack align="center" justify="center">
+              <IconFileDownload size={50} />
+              <Text>Kliknij lub przeciągnij plik, aby go przesłać</Text>
+              <Button variant="outline" color="gray" radius={6}>
+                Wybierz plik
+              </Button>
+            </Stack>
+          ) : (
+            <Stack align="center" justify="center">
+              <IconLink size={50} />
+              <TextInput placeholder="Wklej link" />
+              <Button variant="outline" color="gray" radius={6}>
+                Wklej link
+              </Button>
+            </Stack>
+          )}
         </Container>
       </Stack>
     </Container>

@@ -72,7 +72,7 @@ export default function HeaderMegaMenu() {
     <UnstyledButton className={classes.subLink} key={item.title}>
       <Group wrap="nowrap" align="flex-start">
         <ThemeIcon size={34} variant="default" radius="md">
-          <item.icon size={22} color={theme.colors.blue[6]} />
+          <item.icon size={22} color={theme.colors.orange[5]} />
         </ThemeIcon>
         <div>
           <Text size="sm" fw={500}>
@@ -151,8 +151,10 @@ export default function HeaderMegaMenu() {
           </Group>
 
           <Group visibleFrom="sm">
-            <Button variant="default">Log in</Button>
-            <Button>Sign up</Button>
+            <Button variant="default">Logowanie</Button>
+            <Button style={{ backgroundColor: "#c47f25ff" }}>
+              Rejestracja
+            </Button>
           </Group>
 
           <Burger
