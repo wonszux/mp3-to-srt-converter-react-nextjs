@@ -7,7 +7,7 @@ export default function Faq() {
   return (
     <Container size="sm" className={classes.wrapper} py="sm">
       <Title ta="center" className={classes.title}>
-        Frequently Asked Questions
+        Najczęściej zadawane pytania
       </Title>
 
       <Accordion variant="separated">
