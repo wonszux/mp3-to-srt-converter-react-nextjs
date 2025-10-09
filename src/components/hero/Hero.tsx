@@ -1,4 +1,4 @@
-import { Button, Container, Text, Stack, Flex } from "@mantine/core";
+import { Container, Text, Stack, Flex } from "@mantine/core";
 
 export default function HeroContent() {
   return (
