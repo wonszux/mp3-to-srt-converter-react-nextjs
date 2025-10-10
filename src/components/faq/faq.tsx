@@ -69,9 +69,8 @@ export default function Faq() {
             W jakich formatach mogę pobrać napisy?
           </Accordion.Control>
           <Accordion.Panel>
-            Możesz eksportować napisy w formacie <code>.srt</code>,{" "}
-            <code>.vtt</code> lub <code>.txt</code>. Wystarczy jedno kliknięcie,
-            by pobrać gotowy plik.
+            Możesz eksportować napisy tylko w formacie <code>.srt</code>.
+            Wystarczy jedno kliknięcie, by pobrać gotowy plik.
           </Accordion.Panel>
         </Accordion.Item>
       </Accordion>

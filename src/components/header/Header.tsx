@@ -108,7 +108,7 @@ export default function HeaderMegaMenu() {
                     <Box component="span" mr={5}>
                       Features
                     </Box>
-                    <IconChevronDown size={16} color={theme.colors.blue[6]} />
+                    <IconChevronDown size={16} color={theme.colors.orange[4]} />
                   </Center>
                 </a>
               </HoverCard.Target>
@@ -178,22 +178,22 @@ export default function HeaderMegaMenu() {
           <Divider my="sm" />
 
           <a href="#" className={classes.link}>
-            Home
+            Strona główna
           </a>
           <UnstyledButton className={classes.link} onClick={toggleLinks}>
             <Center inline>
               <Box component="span" mr={5}>
-                Features
+                Funkcje
               </Box>
               <IconChevronDown size={16} color={theme.colors.blue[6]} />
             </Center>
           </UnstyledButton>
           <Collapse in={linksOpened}>{links}</Collapse>
           <a href="#" className={classes.link}>
-            Learn
+            O nas
           </a>
           <a href="#" className={classes.link}>
-            Academy
+            Kontakt
           </a>
 
           <Divider my="sm" />
