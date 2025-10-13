@@ -17,11 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      {...mantineHtmlProps}
-      data-mantine-color-scheme="dark" // ← dodaj ręcznie
-    >
+    <html lang="en" {...mantineHtmlProps} data-mantine-color-scheme="dark">
       <head>
         <ColorSchemeScript defaultColorScheme="dark" />
       </head>
