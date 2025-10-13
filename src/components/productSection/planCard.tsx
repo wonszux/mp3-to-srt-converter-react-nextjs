@@ -1,28 +1,13 @@
-import {
-  Card,
-  Text,
-  Button,
-  Group,
-  List,
-  ListItem,
-  Badge,
-} from "@mantine/core";
+import { Card, Text, Button, Group, Badge, Title, Stack } from "@mantine/core";
 
 interface PlanCardProps {
   name: string;
   price: string;
   time: string;
-  features: string[];
   highlighted?: boolean;
 }
 
-export const PlanCard = ({
-  name,
-  price,
-  features,
-  time,
-  highlighted,
-}: PlanCardProps) => {
+export const PlanCard = ({ name, price, time, highlighted }: PlanCardProps) => {
   return (
     <Card
       shadow={highlighted ? "lg" : "sm"}
@@ -38,15 +23,19 @@ export const PlanCard = ({
         {name}
       </Badge>
 
-      <Text size="lg" ta="center" mb="md">
-        {price}
-      </Text>
+      <Stack h={200} align="center" mb="xs" mt="xs" gap="xs">
+        <Title order={2} style={{ fontSize: 40 }} mt="md" ta="center">
+          {time} min
+        </Title>
 
-      <List spacing="xs" mb="md">
-        {features.map((feature, i) => (
-          <ListItem key={i}>{feature}</ListItem>
-        ))}
-      </List>
+        <Text size="md" ta="center">
+          Transkrypcji miesięcznie
+        </Text>
+
+        <Title order={2} style={{ fontSize: 40 }} mt="md" ta="center">
+          {price} PLN
+        </Title>
+      </Stack>
 
       <Group justify="center">
         <Button variant="light" color="orange">

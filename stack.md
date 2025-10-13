@@ -37,7 +37,7 @@ os
 ➡️ Pozwala na interakcję z systemem plików i środowiskiem operacyjnym.
 ➡️ Używana do zarządzania plikami audio, katalogami i ścieżkami.
 
-🔐 Autoryzacja (logowanie
+🔐 Autoryzacja logowanie
 
 Better Auth
 ➡️ Lekka biblioteka do obsługi logowania, sesji i integracji z Supabase.

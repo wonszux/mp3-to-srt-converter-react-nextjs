@@ -4,22 +4,19 @@ import { PlanCard } from "./planCard";
 const plans = [
   {
     name: "Free",
-    price: "0 zł / mies.",
-    time: "20",
-    features: ["20 minut transkrypcji mesięcznie"],
+    price: "0",
+    time: "3",
   },
   {
     name: "Lite",
-    price: "49 zł / mies.",
+    price: "29",
     time: "60",
-    features: ["60 minut transkrypcji mesięcznie"],
     highlighted: true,
   },
   {
     name: "Pro",
-    price: "99 zł / mies.",
+    price: "49",
     time: "600",
-    features: ["60 minut transkrypcji mesięcznie"],
   },
 ];
 
