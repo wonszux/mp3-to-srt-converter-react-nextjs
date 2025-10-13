@@ -24,7 +24,7 @@ export default function ProductSection() {
   return (
     <Container my={40}>
       <Title ta="center" order={2} mb="xl" style={{ fontSize: 34 }}>
-        Najczęściej zadawane pytania
+        Poznaj naszą ofertę!
       </Title>
 
       <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="lg">
