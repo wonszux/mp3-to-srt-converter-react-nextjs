@@ -1,7 +1,6 @@
 import { SimpleGrid, Container, Title } from "@mantine/core";
 import { IconCheck, IconRocket, IconMail } from '@tabler/icons-react';
 import { PlanCard } from "./planCard";
-import { features } from "process";
 
 const plans = [
   {
