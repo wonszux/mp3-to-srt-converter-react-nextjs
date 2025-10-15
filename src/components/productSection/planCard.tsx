@@ -7,8 +7,7 @@ import {
   Badge,
   Title,
   Stack,
-  Divider,
-  Container,
+  Divider
 } from "@mantine/core";
 import { IconProps } from "@tabler/icons-react";
 
