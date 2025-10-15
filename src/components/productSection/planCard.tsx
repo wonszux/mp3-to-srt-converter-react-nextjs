@@ -24,7 +24,7 @@ export const PlanCard = ({ name, price, time, highlighted }: PlanCardProps) => {
       </Badge>
 
       <Stack h={200} align="center" mb="xs" mt="xs" gap="xs">
-        <Title order={2} style={{ fontSize: 40 }} mt="md" ta="center">
+        <Title order={2} fz="40" mt="md" ta="center">
           {time} min
         </Title>
 
@@ -32,13 +32,13 @@ export const PlanCard = ({ name, price, time, highlighted }: PlanCardProps) => {
           Transkrypcji miesięcznie
         </Text>
 
-        <Title order={2} style={{ fontSize: 40 }} mt="md" ta="center">
+        <Title order={2} fz="40" mt="md" ta="center">
           {price} PLN
         </Title>
       </Stack>
 
       <Group justify="center">
-        <Button variant="light" color="orange">
+        <Button variant="light" color="orange" fullWidth radius="xl">
           Wybierz
         </Button>
       </Group>

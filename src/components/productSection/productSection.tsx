@@ -23,7 +23,7 @@ const plans = [
 export default function ProductSection() {
   return (
     <Container my={40}>
-      <Title ta="center" order={2} mb="xl" style={{ fontSize: 34 }}>
+      <Title ta="center" order={2} mb="xl" fz="34">
         Poznaj naszą ofertę!
       </Title>
 
