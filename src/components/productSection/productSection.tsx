@@ -1,4 +1,5 @@
 import { SimpleGrid, Container, Title } from "@mantine/core";
+import { IconCheck, IconRocket, IconMail } from '@tabler/icons-react';
 import { PlanCard } from "./planCard";
 
 const plans = [
@@ -6,17 +7,32 @@ const plans = [
     name: "Free",
     price: "0",
     time: "3",
+    features: [
+      { title: 'Priorytet', description: 'Brak priorytetu dostępu', icon: IconCheck },
+      { title: 'Prędkość', description: 'Powolna transkrypcja', icon: IconRocket },
+      { title: 'Wsparcie', description: 'Brak wsparcia', icon: IconMail },
+    ],
   },
   {
     name: "Lite",
     price: "29",
     time: "60",
+    features: [
+      { title: 'Priorytet', description: 'Wyższy priorytet dostępu', icon: IconCheck },
+      { title: 'Prędkość', description: 'Szybka transkrypcja', icon: IconRocket },
+      { title: 'Wsparcie', description: 'Wsparcie niepriorytetowe', icon: IconMail },
+    ],
     highlighted: true,
   },
   {
     name: "Pro",
-    price: "49",
+    price: "49", 
     time: "600",
+    features: [
+      { title: 'Priorytet', description: 'Najwyższy priorytet dostępu', icon: IconCheck },
+      { title: 'Prędkość', description: 'Najszybsza transkrypcja', icon: IconRocket },
+      { title: 'Wsparcie', description: 'Wsparcie priorytetowe', icon: IconMail },
+    ],
   },
 ];
 
