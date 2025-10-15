@@ -10,12 +10,13 @@ import {
   Divider,
   Container,
 } from "@mantine/core";
+import { IconProps } from "@tabler/icons-react";
 
 interface PlanCardProps {
   name: string;
   price: string;
   time: string;
-  features: { title: string; description: string; icon: React.FC<any> }[];
+  features: { title: string; description: string; icon: React.FC<IconProps> }[];
   highlighted?: boolean;
 }
 
@@ -69,7 +70,7 @@ export const PlanCard = ({
         {features.map((feature, index) => (
           <Group key={index}>
             <ThemeIcon variant="light" size="xl" radius="xl">
-              <feature.icon mt="md" color="orange" style={{ width: "70%", height: "70%" }} />
+              <feature.icon color="orange" style={{ width: "70%", height: "70%" }} />
             </ThemeIcon>
             <Stack gap={0}>
               <Text fw={600} size="md">
