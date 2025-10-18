@@ -37,9 +37,11 @@ export const PlanCard = ({
         transition: "all 0.2s ease",
       }}
     >
-      <Badge size="md" color="orange">
-        {name}
-      </Badge>
+      <Group justify="center" align="center">
+        <Badge size="md" variant="light" color="orange">
+          {name}
+        </Badge>
+      </Group>
 
       <Stack h={200} align="center" gap="sm">
         <Title order={2} fz="48" mt="sm" ta="center">
@@ -62,15 +64,15 @@ export const PlanCard = ({
       </Group>
 
       <Group justify="center" align="center">
-        <Divider size="xs" color="grey" w="80%" mt="xl" mx="auto" />
+        <Divider size="xs" color="grey" w="90%" mt="xl" mx="auto" />
       </Group>
 
       <Stack mt="xl" gap="lg">
         {features.map((feature, index) => (
           <Group key={index}>
-            <ThemeIcon variant="light" size="xl" radius="xl">
+            <ThemeIcon variant="default" bg={"#ff910018"} size="xl" radius="xl">
               <feature.icon
-                color="orange"
+                color={"#ffc078e7"}
                 style={{ width: "70%", height: "70%" }}
               />
             </ThemeIcon>
