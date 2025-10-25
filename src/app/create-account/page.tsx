@@ -1,9 +1,9 @@
 import { Container, Title } from "@mantine/core";
 
-export default function UserPanel() {
+export default function CreateAccount() {
   return (
     <Container>
-      <Title>UserPanel</Title>
+      <Title>CreateAccountPage</Title>
     </Container>
   );
 }
