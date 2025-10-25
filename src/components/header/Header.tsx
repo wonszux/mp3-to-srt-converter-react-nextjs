@@ -1,4 +1,8 @@
-import { IconChevronDown, IconCode, IconCoin } from "@tabler/icons-react";
+import {
+  IconChevronDown,
+  IconFileMusic,
+  IconBrandZoom,
+} from "@tabler/icons-react";
 import {
   Box,
   Burger,
@@ -23,14 +27,14 @@ import classes from "./HeaderMegaMenu.module.css";
 
 const mockdata = [
   {
-    icon: IconCode,
+    icon: IconFileMusic,
     title: "Transkrypcja plików dzwiękowych",
-    description: "This Pokémon’s cry is very loud and distracting",
+    description: "Transkrybuj pliki dzwiękowe.",
   },
   {
-    icon: IconCoin,
+    icon: IconBrandZoom,
     title: "Transkrypcja rozmów na żywo",
-    description: "The fluid of Smeargle’s tail secretions changes",
+    description: "Transkrybuj rozmowy na żywo.",
   },
 ];
 
@@ -63,7 +67,14 @@ export default function HeaderMegaMenu() {
     <Box pb={120}>
       <header className={classes.header}>
         <Group justify="space-between" h="100%" mx="18rem">
-          <Image h={30} w="auto" fit="contain" src="/logo.svg" alt="Logo" />
+          <Image
+            h={30}
+            w="auto"
+            fit="contain"
+            src="/logo.svg"
+            alt="Logo"
+            onClick={() => router.push("/")}
+          />
           <Group align="center" ml={25}>
             <a href="#" className={classes.link}>
               Strona główna
@@ -102,7 +113,7 @@ export default function HeaderMegaMenu() {
                 <div className={classes.dropdownFooter}>
                   <Group justify="space-between">
                     <div>
-                      <Text fw={500} fz="sm">
+                      <Text fw={500} fz="md">
                         Zacznij teraz
                       </Text>
                       <Text size="xs" c="dimmed">
@@ -121,10 +132,10 @@ export default function HeaderMegaMenu() {
               </HoverCard.Dropdown>
             </HoverCard>
             <a href="#" className={classes.link}>
-              Learn
+              O nas
             </a>
             <a href="#" className={classes.link}>
-              Academy
+              Szkolenia
             </a>
           </Group>
 
