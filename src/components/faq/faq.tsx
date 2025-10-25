@@ -5,7 +5,7 @@ import classes from "./FaqSimple.module.css";
 
 export default function Faq() {
   return (
-    <Container size="sm" className={classes.wrapper} py="sm">
+    <Container size="sm" className={classes.wrapper} mb="sm">
       <Title ta="center" className={classes.title}>
         Najczęściej zadawane pytania
       </Title>

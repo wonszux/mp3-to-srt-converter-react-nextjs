@@ -1,14 +1,5 @@
+import { IconChevronDown, IconCode, IconCoin } from "@tabler/icons-react";
 import {
-  IconBook,
-  IconChartPie3,
-  IconChevronDown,
-  IconCode,
-  IconCoin,
-  IconFingerprint,
-  IconNotification,
-} from "@tabler/icons-react";
-import {
-  Anchor,
   Box,
   Burger,
   Button,
@@ -27,38 +18,19 @@ import {
   Image,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { useRouter } from "next/navigation";
 import classes from "./HeaderMegaMenu.module.css";
 
 const mockdata = [
   {
     icon: IconCode,
-    title: "Open source",
+    title: "Transkrypcja plików dzwiękowych",
     description: "This Pokémon’s cry is very loud and distracting",
   },
   {
     icon: IconCoin,
-    title: "Free for everyone",
+    title: "Transkrypcja rozmów na żywo",
     description: "The fluid of Smeargle’s tail secretions changes",
-  },
-  {
-    icon: IconBook,
-    title: "Documentation",
-    description: "Yanma is capable of seeing 360 degrees without",
-  },
-  {
-    icon: IconFingerprint,
-    title: "Security",
-    description: "The shell’s rounded shape and the grooves on its.",
-  },
-  {
-    icon: IconChartPie3,
-    title: "Analytics",
-    description: "This Pokémon uses its flying ability to quickly chase",
-  },
-  {
-    icon: IconNotification,
-    title: "Notifications",
-    description: "Combusken battles with the intensely hot flames it spews",
   },
 ];
 
@@ -67,6 +39,7 @@ export default function HeaderMegaMenu() {
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const theme = useMantineTheme();
+  const router = useRouter();
 
   const links = mockdata.map((item) => (
     <UnstyledButton className={classes.subLink} key={item.title}>
@@ -93,7 +66,7 @@ export default function HeaderMegaMenu() {
           <Image h={30} w="auto" fit="contain" src="/logo.svg" alt="Logo" />
           <Group align="center" ml={25}>
             <a href="#" className={classes.link}>
-              Home
+              Strona główna
             </a>
             <HoverCard
               width={600}
@@ -106,19 +79,18 @@ export default function HeaderMegaMenu() {
                 <a href="#" className={classes.link}>
                   <Center inline>
                     <Box component="span" mr={5}>
-                      Features
+                      Aplikacje
                     </Box>
                     <IconChevronDown size={16} color={theme.colors.orange[4]} />
                   </Center>
                 </a>
               </HoverCard.Target>
 
-              <HoverCard.Dropdown style={{ overflow: "hidden" }}>
+              <HoverCard.Dropdown
+                style={{ overflow: "hidden", width: "800px" }}
+              >
                 <Group justify="space-between" px="md">
-                  <Text fw={500}>Features</Text>
-                  <Anchor href="#" fz="xs">
-                    View all
-                  </Anchor>
+                  <Text fw={500}>Aplikacje</Text>
                 </Group>
 
                 <Divider my="sm" />
@@ -131,13 +103,19 @@ export default function HeaderMegaMenu() {
                   <Group justify="space-between">
                     <div>
                       <Text fw={500} fz="sm">
-                        Get started
+                        Zacznij teraz
                       </Text>
                       <Text size="xs" c="dimmed">
-                        Their food sources have decreased, and their numbers
+                        Zacznij teraz transkrybować swoje pliki dzwiękowe lub
+                        rozmowy na żywo.
                       </Text>
                     </div>
-                    <Button variant="default">Get started</Button>
+                    <Button
+                      variant="default"
+                      onClick={() => router.push("/create-account")}
+                    >
+                      Rejestracja
+                    </Button>
                   </Group>
                 </div>
               </HoverCard.Dropdown>
@@ -151,8 +129,13 @@ export default function HeaderMegaMenu() {
           </Group>
 
           <Group visibleFrom="sm">
-            <Button variant="default">Logowanie</Button>
-            <Button style={{ backgroundColor: "#c47f25ff" }}>
+            <Button variant="default" onClick={() => router.push("/log-in")}>
+              Logowanie
+            </Button>
+            <Button
+              style={{ backgroundColor: "#c47f25ff" }}
+              onClick={() => router.push("/create-account")}
+            >
               Rejestracja
             </Button>
           </Group>

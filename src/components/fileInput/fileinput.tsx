@@ -53,7 +53,7 @@ export default function FileInput() {
             minWidth: 913,
             minHeight: 300,
             borderRadius: 15,
-            background: "#303030ff",
+            background: "#25262b",
           }}
         >
           {active === "file" ? (
