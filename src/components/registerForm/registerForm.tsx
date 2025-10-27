@@ -18,12 +18,14 @@ import {
 import classes from "./AuthenticationTitle.module.css";
 import GoogleButton from "../googleButton/googleButton";
 import { signUp } from "@/server/users";
+import { useRouter } from "next/navigation";
 
 export default function RegisterForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleSignUp = async () => {
     setLoading(true);
@@ -45,13 +47,13 @@ export default function RegisterForm() {
         </Title>
 
         <Text className={classes.subtitle}>
-          Masz już konto? <Anchor>Zaloguj się</Anchor>
+          Masz już konto?{" "}
+          <Anchor onClick={() => router.push("/log-in")}>Zaloguj się</Anchor>
         </Text>
       </Stack>
 
       <Paper withBorder shadow="sm" p={27} mt={30} radius="lg">
         <TextInput
-          label="Imię"
           placeholder="Twoje imię"
           required
           radius="md"
@@ -61,7 +63,6 @@ export default function RegisterForm() {
         />
 
         <TextInput
-          label="Email"
           placeholder="jacek@ocieracz.com"
           required
           radius="md"
@@ -70,7 +71,6 @@ export default function RegisterForm() {
         />
 
         <PasswordInput
-          label="Hasło"
           placeholder="Wybierz bezpieczne hasło"
           required
           mt="md"

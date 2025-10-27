@@ -18,12 +18,14 @@ import { useState } from "react";
 import classes from "./AuthenticationTitle.module.css";
 import GoogleButton from "../googleButton/googleButton";
 import { signIn } from "@/server/users";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleSignIn = async () => {
     setLoading(true);
@@ -44,7 +46,10 @@ export default function LoginForm() {
         </Title>
 
         <Text className={classes.subtitle}>
-          Nie masz jeszcze konta? <Anchor>Utwórz konto</Anchor>
+          Nie masz jeszcze konta?{" "}
+          <Anchor onClick={() => router.push("/create-account")}>
+            Utwórz konto
+          </Anchor>
         </Text>
       </Stack>
 
