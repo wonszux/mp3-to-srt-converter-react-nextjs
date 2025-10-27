@@ -13,9 +13,17 @@ export const signIn = async (
 };
 
 export const signUp = async (email: string, password: string, name: string) => {
-  await auth.api.signUpEmail({
-    body: { email, password, name },
-  });
+  try {
+    await auth.api.signUpEmail({
+      body: { email, password, name },
+    });
+  } catch (error) {
+    // NAPRAW SIE PROSZE
+    console.error("Server-side signUp error details:", error);
+
+    // AAAAAAAAAAAAAAAA
+    throw error;
+  }
 };
 
 export const setPassword = async (

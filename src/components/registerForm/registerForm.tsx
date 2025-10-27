@@ -54,7 +54,7 @@ export default function RegisterForm() {
 
       <Paper withBorder shadow="sm" p={27} mt={30} radius="lg">
         <TextInput
-          placeholder="Twoje imię"
+          placeholder="Nazwa użytkownika"
           required
           radius="md"
           value={name}
@@ -63,7 +63,7 @@ export default function RegisterForm() {
         />
 
         <TextInput
-          placeholder="jacek@ocieracz.com"
+          placeholder="E-mail"
           required
           radius="md"
           value={email}
@@ -71,7 +71,7 @@ export default function RegisterForm() {
         />
 
         <PasswordInput
-          placeholder="Wybierz bezpieczne hasło"
+          placeholder="Hasło"
           required
           mt="md"
           radius="md"
