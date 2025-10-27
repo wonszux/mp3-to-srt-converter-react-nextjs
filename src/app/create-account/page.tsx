@@ -1,9 +1,11 @@
 import { Container, Title } from "@mantine/core";
 
-export default function CreateAccount() {
+import RegisterForm from "@/components/registerForm/registerForm";
+
+export default function CreateAccountPage() {
   return (
     <Container>
-      <Title>CreateAccountPage</Title>
+      <RegisterForm />
     </Container>
   );
 }
