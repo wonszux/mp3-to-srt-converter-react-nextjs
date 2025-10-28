@@ -21,8 +21,8 @@ import { signIn } from "@/server/users";
 import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email] = useState("");
+  const [password] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -35,6 +35,7 @@ export default function LoginForm() {
       console.error("Błąd podczas logowania: ", error);
     } finally {
       setLoading(false);
+      router.push("/user-panel");
     }
   };
 

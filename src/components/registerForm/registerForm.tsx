@@ -36,6 +36,7 @@ export default function RegisterForm() {
       console.error("Błąd rejestracji:", error);
     } finally {
       setLoading(false);
+      router.push("/user-panel");
     }
   };
 
