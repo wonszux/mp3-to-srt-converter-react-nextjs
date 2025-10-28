@@ -8,8 +8,7 @@ import {
 import ClientLayout from "@/components/appShell/ClientLayout";
 
 export const metadata = {
-  title: "My Mantine app",
-  description: "I have followed setup instructions carefully",
+  title: "ConvertSRT",
 };
 
 const theme = createTheme({
