@@ -24,6 +24,7 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { useRouter } from "next/navigation";
 import classes from "./HeaderMegaMenu.module.css";
+import { authClient } from "@/lib/auth-client";
 
 const mockdata = [
   {
@@ -44,6 +45,7 @@ export default function HeaderMegaMenu() {
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const theme = useMantineTheme();
   const router = useRouter();
+  const { data } = authClient.useSession();
 
   const links = mockdata.map((item) => (
     <UnstyledButton className={classes.subLink} key={item.title}>
@@ -139,17 +141,26 @@ export default function HeaderMegaMenu() {
             </a>
           </Group>
 
-          <Group visibleFrom="sm">
-            <Button variant="default" onClick={() => router.push("/log-in")}>
-              Logowanie
-            </Button>
+          {!data ? (
+            <Group visibleFrom="sm">
+              <Button variant="default" onClick={() => router.push("/log-in")}>
+                Logowanie
+              </Button>
+              <Button
+                style={{ backgroundColor: "#c47f25ff" }}
+                onClick={() => router.push("/create-account")}
+              >
+                Rejestracja
+              </Button>
+            </Group>
+          ) : (
             <Button
               style={{ backgroundColor: "#c47f25ff" }}
-              onClick={() => router.push("/create-account")}
+              onClick={() => router.push("/user-panel")}
             >
-              Rejestracja
+              Panel Użytkownika
             </Button>
-          </Group>
+          )}
 
           <Burger
             opened={drawerOpened}
