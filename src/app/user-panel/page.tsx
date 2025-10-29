@@ -1,9 +1,8 @@
-import { Container, Title } from "@mantine/core";
+import { Container } from '@mantine/core'
+import UserPanel from '@/components/userPanel/userPanel'
+export default function UserPanelPage() {
 
-export default function UserPanel() {
   return (
-    <Container>
-      <Title>UserPanel</Title>
-    </Container>
-  );
+      <UserPanel />
+  )
 }
