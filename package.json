@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@mantine/core": "^8.3.3",
+    "@mantine/dropzone": "^8.3.6",
     "@mantine/form": "^8.3.5",
     "@mantine/hooks": "^8.3.3",
     "@tabler/core": "^1.4.0",
