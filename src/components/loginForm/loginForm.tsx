@@ -59,7 +59,7 @@ export default function LoginForm() {
 
         <Text className={classes.subtitle}>
           Nie masz jeszcze konta?{" "}
-          <Anchor onClick={() => router.push("/create-account")}>
+          <Anchor c="orange" onClick={() => router.push("/create-account")}>
             Utwórz konto
           </Anchor>
         </Text>
@@ -77,6 +77,7 @@ export default function LoginForm() {
           radius="md"
           value={email}
           onChange={(event) => setEmail(event.currentTarget.value)}
+          classNames={{ root: classes.root, input: classes.input }}
         />
         <PasswordInput
           placeholder="Twoje hasło"
@@ -85,6 +86,7 @@ export default function LoginForm() {
           radius="md"
           value={password}
           onChange={(event) => setPassword(event.currentTarget.value)}
+          //trzeba dodac kolor pomaranczowy 🍸
         />
         <Group justify="space-between" mt="lg">
           <Checkbox
@@ -92,7 +94,7 @@ export default function LoginForm() {
             checked={rememberMe}
             onChange={(event) => setRememberMe(event.currentTarget.checked)}
           />
-          <Anchor component="button" size="sm">
+          <Anchor component="button" size="sm" color="orange">
             Zapomniałeś hasła?
           </Anchor>
         </Group>
@@ -102,6 +104,7 @@ export default function LoginForm() {
           radius="md"
           onClick={handleSignIn}
           loading={loading}
+          color="orange"
         >
           Zaloguj się
         </Button>

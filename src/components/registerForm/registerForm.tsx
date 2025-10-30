@@ -54,7 +54,9 @@ export default function RegisterForm() {
 
         <Text className={classes.subtitle}>
           Masz już konto?{" "}
-          <Anchor onClick={() => router.push("/log-in")}>Zaloguj się</Anchor>
+          <Anchor c="orange" onClick={() => router.push("/log-in")}>
+            Zaloguj się
+          </Anchor>
         </Text>
       </Stack>
 
@@ -66,6 +68,7 @@ export default function RegisterForm() {
           value={name}
           onChange={(event) => setName(event.currentTarget.value)}
           mb="md"
+          classNames={{ root: classes.root, input: classes.input }}
         />
 
         <TextInput
@@ -74,6 +77,7 @@ export default function RegisterForm() {
           radius="md"
           value={email}
           onChange={(event) => setEmail(event.currentTarget.value)}
+          classNames={{ root: classes.root, input: classes.input }}
         />
 
         <PasswordInput
@@ -83,11 +87,12 @@ export default function RegisterForm() {
           radius="md"
           value={password}
           onChange={(event) => setPassword(event.currentTarget.value)}
+          //trzeba dodac kolor pomaranczowy 🍸
         />
 
         <Group justify="space-between" mt="lg">
           <Checkbox label="Akceptuję warunki i zasady" />
-          <Anchor component="button" size="sm">
+          <Anchor component="button" size="sm" c="orange">
             Więcej o RODO
           </Anchor>
         </Group>
@@ -98,6 +103,7 @@ export default function RegisterForm() {
           radius="md"
           onClick={handleSignUp}
           loading={loading}
+          color="orange"
         >
           Utwórz konto
         </Button>

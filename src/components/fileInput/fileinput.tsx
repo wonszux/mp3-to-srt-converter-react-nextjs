@@ -63,12 +63,15 @@ export default function FileInput() {
           ) : (
             <Stack align="center" justify="center" w="100%" p="md">
               <IconLink size={50} />
+              <Text>Wklej link, a następnie kliknij "Generuj"</Text>
               <TextInput
-                placeholder="Wklej link"
+                placeholder="np. https://www.youtube.com/watch?v=wCVwD..."
+                radius={30}
+                size="md"
                 style={{ width: "80%", minWidth: 250, maxWidth: 600 }}
               />
               <Button variant="outline" color="gray" radius={6}>
-                Wklej link
+                Generuj
               </Button>
             </Stack>
           )}
