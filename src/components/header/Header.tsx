@@ -1,4 +1,8 @@
-import { IconChevronDown, IconFileMusic, IconBrandZoom } from '@tabler/icons-react'
+import {
+  IconChevronDown,
+  IconFileMusic,
+  IconBrandZoom,
+} from "@tabler/icons-react";
 import {
   Box,
   Burger,
@@ -16,32 +20,39 @@ import {
   UnstyledButton,
   useMantineTheme,
   Image,
-} from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
-import { useRouter } from 'next/navigation'
-import classes from './HeaderMegaMenu.module.css'
-import { authClient } from '@/lib/auth-client'
+} from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { useRouter } from "next/navigation";
+import classes from "./HeaderMegaMenu.module.css";
+import { authClient } from "@/lib/auth-client";
 
 const mockdata = [
   {
     icon: IconFileMusic,
-    title: 'Transkrypcja plików dzwiękowych',
-    description: 'Transkrybuj pliki dzwiękowe.',
+    title: "Transkrypcja plików dzwiękowych",
+    description: "Transkrybuj pliki dzwiękowe.",
   },
   {
     icon: IconBrandZoom,
-    title: 'Transkrypcja rozmów na żywo',
-    description: 'Transkrybuj rozmowy na żywo.',
+    title: "Transkrypcja rozmów na żywo",
+    description: "Transkrybuj rozmowy na żywo.",
   },
-]
+];
 
 export default function HeaderMegaMenu() {
-  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false)
-  const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false)
-  const theme = useMantineTheme()
-  const router = useRouter()
-  const { data } = authClient.useSession()
-  const isLogedIn = data ? true : false
+  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
+    useDisclosure(false);
+  const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
+  const theme = useMantineTheme();
+  const router = useRouter();
+  const { data } = authClient.useSession();
+  const isLogedIn = data ? true : false;
+
+  const signOut = async () => {
+    await authClient.signOut();
+    router.push("/");
+    router.refresh();
+  };
 
   const links = mockdata.map((item) => (
     <UnstyledButton className={classes.subLink} key={item.title}>
@@ -59,7 +70,7 @@ export default function HeaderMegaMenu() {
         </div>
       </Group>
     </UnstyledButton>
-  ))
+  ));
 
   return (
     <Box pb={120}>
@@ -71,13 +82,19 @@ export default function HeaderMegaMenu() {
             fit="contain"
             src="/logo.svg"
             alt="Logo"
-            onClick={() => router.push('/')}
+            onClick={() => router.push("/")}
           />
           <Group align="center" ml={25}>
             <a href="#" className={classes.link}>
               Strona główna
             </a>
-            <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
+            <HoverCard
+              width={600}
+              position="bottom"
+              radius="md"
+              shadow="md"
+              withinPortal
+            >
               <HoverCard.Target>
                 <a href="#" className={classes.link}>
                   <Center inline>
@@ -89,7 +106,9 @@ export default function HeaderMegaMenu() {
                 </a>
               </HoverCard.Target>
 
-              <HoverCard.Dropdown style={{ overflow: 'hidden', width: '800px' }}>
+              <HoverCard.Dropdown
+                style={{ overflow: "hidden", width: "800px" }}
+              >
                 <Group justify="space-between" px="md">
                   <Text fw={500}>Aplikacje</Text>
                 </Group>
@@ -107,10 +126,14 @@ export default function HeaderMegaMenu() {
                         Zacznij teraz
                       </Text>
                       <Text size="xs" c="dimmed">
-                        Zacznij teraz transkrybować swoje pliki dzwiękowe lub rozmowy na żywo.
+                        Zacznij teraz transkrybować swoje pliki dzwiękowe lub
+                        rozmowy na żywo.
                       </Text>
                     </div>
-                    <Button variant="default" onClick={() => router.push('/create-account')}>
+                    <Button
+                      variant="default"
+                      onClick={() => router.push("/create-account")}
+                    >
                       Rejestracja
                     </Button>
                   </Group>
@@ -126,27 +149,36 @@ export default function HeaderMegaMenu() {
           </Group>
 
           {isLogedIn ? (
-            <Button
-              style={{ backgroundColor: '#c47f25ff' }}
-              onClick={() => router.push('/user-panel')}
-            >
-              Panel Użytkownika
-            </Button>
+            <Group visibleFrom="sm">
+              <Button
+                style={{ backgroundColor: "#c47f25ff" }}
+                onClick={() => router.push("/user-panel")}
+              >
+                Panel Użytkownika
+              </Button>
+              <Button variant="default" onClick={signOut}>
+                Wyloguj
+              </Button>
+            </Group>
           ) : (
             <Group visibleFrom="sm">
-              <Button variant="default" onClick={() => router.push('/log-in')}>
+              <Button variant="default" onClick={() => router.push("/log-in")}>
                 Logowanie
               </Button>
               <Button
-                style={{ backgroundColor: '#c47f25ff' }}
-                onClick={() => router.push('/create-account')}
+                style={{ backgroundColor: "#c47f25ff" }}
+                onClick={() => router.push("/create-account")}
               >
                 Rejestracja
               </Button>
             </Group>
           )}
 
-          <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
+          <Burger
+            opened={drawerOpened}
+            onClick={toggleDrawer}
+            hiddenFrom="sm"
+          />
         </Group>
       </header>
 
@@ -190,5 +222,5 @@ export default function HeaderMegaMenu() {
         </ScrollArea>
       </Drawer>
     </Box>
-  )
+  );
 }

@@ -18,21 +18,33 @@ import { useState } from "react";
 import classes from "./AuthenticationTitle.module.css";
 import GoogleButton from "../googleButton/googleButton";
 import { signIn } from "@/server/users";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const handleSignIn = async () => {
     setLoading(true);
+    setError(null);
     try {
       await signIn(email, password, rememberMe);
+      router.push("/user-panel");
     } catch (error) {
       console.error("Błąd podczas logowania: ", error);
+      if (error instanceof Error) {
+        if (error.message.includes("Invalid email")) {
+          setError("Nieprawidłowy e-mail lub hasło.");
+        } else {
+          setError(error.message);
+        }
+      } else {
+        setError("Wystąpił nieznany błąd.");
+      }
     } finally {
       setLoading(false);
     }
@@ -54,6 +66,11 @@ export default function LoginForm() {
       </Stack>
 
       <Paper withBorder shadow="sm" p={27} mt={30} radius="lg">
+        {error && (
+          <Text color="red" size="sm" ta="center" mt="md">
+            {error}
+          </Text>
+        )}
         <TextInput
           placeholder="jacek@ocieracz.com"
           required

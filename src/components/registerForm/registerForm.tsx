@@ -19,12 +19,14 @@ import classes from "./AuthenticationTitle.module.css";
 import GoogleButton from "../googleButton/googleButton";
 import { signUp } from "@/server/users";
 import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 export default function RegisterForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const { data } = authClient.useSession();
   const router = useRouter();
 
   const handleSignUp = async () => {
@@ -36,7 +38,10 @@ export default function RegisterForm() {
       console.error("Błąd rejestracji:", error);
     } finally {
       setLoading(false);
-      router.push("/user-panel");
+      if (data) {
+        router.push("/user-panel");
+        router.refresh();
+      }
     }
   };
 
