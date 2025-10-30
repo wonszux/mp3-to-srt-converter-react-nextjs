@@ -7,9 +7,14 @@ export const signIn = async (
   password: string,
   rememberMe: boolean = true
 ) => {
-  await auth.api.signInEmail({
-    body: { email, password, rememberMe },
-  });
+  try {
+    await auth.api.signInEmail({
+      body: { email, password, rememberMe },
+    });
+  } catch (error) {
+    console.error("Server-side signIn error details:", error);
+    throw error;
+  }
 };
 
 export const signUp = async (email: string, password: string, name: string) => {

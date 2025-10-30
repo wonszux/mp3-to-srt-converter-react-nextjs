@@ -21,8 +21,8 @@ import { signIn } from "@/server/users";
 import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
-  const [email] = useState("");
-  const [password] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -35,7 +35,6 @@ export default function LoginForm() {
       console.error("Błąd podczas logowania: ", error);
     } finally {
       setLoading(false);
-      router.push("/user-panel");
     }
   };
 
@@ -55,8 +54,21 @@ export default function LoginForm() {
       </Stack>
 
       <Paper withBorder shadow="sm" p={27} mt={30} radius="lg">
-        <TextInput placeholder="jacek@ocieracz.com" required radius="md" />
-        <PasswordInput placeholder="Twoje hasło" required mt="md" radius="md" />
+        <TextInput
+          placeholder="jacek@ocieracz.com"
+          required
+          radius="md"
+          value={email}
+          onChange={(event) => setEmail(event.currentTarget.value)}
+        />
+        <PasswordInput
+          placeholder="Twoje hasło"
+          required
+          mt="md"
+          radius="md"
+          value={password}
+          onChange={(event) => setPassword(event.currentTarget.value)}
+        />
         <Group justify="space-between" mt="lg">
           <Checkbox
             label="Zapamiętaj mnie"
