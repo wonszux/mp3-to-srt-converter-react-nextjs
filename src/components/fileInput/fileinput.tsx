@@ -9,19 +9,14 @@ export default function FileInput() {
 
   return (
     <Container
+      p={20}
+      bdrs={50}
       style={{
-        display: "flex",
-        justifyContent: "center",
-        border: "solid 1px gray",
-        paddingTop: 20,
-        paddingBottom: 20,
-        paddingLeft: 20,
-        paddingRight: 20,
-        alignItems: "center",
-        borderRadius: 35,
+        border: "solid 1px #444",
       }}
     >
-      <Stack>
+      <Stack align="center">
+        {" "}
         <Container
           style={{
             display: "flex",
@@ -46,14 +41,15 @@ export default function FileInput() {
           </Button>
         </Container>
         <Container
+          w="100%"
+          mih={300}
+          bdrs={35}
+          bg="#181818ff"
           style={{
             display: "flex",
             justifyContent: "center",
+            alignItems: "center",
             border: "dashed 1px gray",
-            minWidth: 913,
-            minHeight: 300,
-            borderRadius: 15,
-            background: "#25262b",
           }}
         >
           {active === "file" ? (
@@ -65,9 +61,12 @@ export default function FileInput() {
               </Button>
             </Stack>
           ) : (
-            <Stack align="center" justify="center">
+            <Stack align="center" justify="center" w="100%" p="md">
               <IconLink size={50} />
-              <TextInput placeholder="Wklej link" />
+              <TextInput
+                placeholder="Wklej link"
+                style={{ width: "80%", minWidth: 250, maxWidth: 600 }}
+              />
               <Button variant="outline" color="gray" radius={6}>
                 Wklej link
               </Button>

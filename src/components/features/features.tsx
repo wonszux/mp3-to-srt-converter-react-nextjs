@@ -40,7 +40,7 @@ export default function FeaturesCards() {
     <Card
       key={feature.title}
       shadow="md"
-      radius="md"
+      radius="xl"
       className={classes.card}
       padding="xl"
     >
