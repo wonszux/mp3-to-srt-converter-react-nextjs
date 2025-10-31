@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Container, Stack, Text, TextInput } from "@mantine/core";
+import { Dropzone, DropzoneProps } from "@mantine/dropzone";
 import { IconFileDownload, IconLink } from "@tabler/icons-react";
 import { useState } from "react";
 
