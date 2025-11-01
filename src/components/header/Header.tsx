@@ -112,7 +112,7 @@ export default function HeaderMegaMenu() {
                 <Group justify="space-between" px="md">
                   <Text fw={500}>Aplikacje</Text>
                 </Group>
-
+                <Divider my="sm" />
                 <SimpleGrid cols={2} spacing={0}>
                   {links}
                 </SimpleGrid>

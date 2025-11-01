@@ -39,11 +39,7 @@ export default function RootLayout({
         <ColorSchemeScript defaultColorScheme="dark" />
       </head>
       <body>
-        <MantineProvider
-          defaultColorScheme="dark"
-          forceColorScheme="dark"
-          theme={theme}
-        >
+        <MantineProvider forceColorScheme="dark" theme={theme}>
           <ClientLayout>{children}</ClientLayout>
         </MantineProvider>
       </body>
