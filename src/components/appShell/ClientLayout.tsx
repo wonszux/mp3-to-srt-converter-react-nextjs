@@ -11,10 +11,8 @@ interface ClientLayoutProps {
 
 export default function BasicAppShell({ children }: ClientLayoutProps) {
   return (
-    <AppShell header={{ height: 60 }} padding="md">
-      <AppShell.Header>
-        <Header />
-      </AppShell.Header>
+    <AppShell>
+      <Header />
       <AppShell.Main>
         <Container size={"xl"}>{children}</Container>
       </AppShell.Main>

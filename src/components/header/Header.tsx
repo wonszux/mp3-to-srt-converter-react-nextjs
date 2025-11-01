@@ -46,7 +46,6 @@ export default function HeaderMegaMenu() {
   const theme = useMantineTheme();
   const router = useRouter();
   const { data } = authClient.useSession();
-  const isLogedIn = data ? true : false;
 
   const signOut = async () => {
     await authClient.signOut();
@@ -73,9 +72,9 @@ export default function HeaderMegaMenu() {
   ));
 
   return (
-    <Box pb={120}>
+    <Box h={80}>
       <header className={classes.header}>
-        <Group justify="space-between" h="100%" mx="18rem">
+        <Group justify="space-between" h="100%" px="xl">
           <Image
             h={30}
             w="auto"
@@ -146,7 +145,7 @@ export default function HeaderMegaMenu() {
             </a>
           </Group>
 
-          {isLogedIn ? (
+          {data ? (
             <Group visibleFrom="sm">
               <Button
                 style={{ backgroundColor: "#c47f25ff" }}
@@ -160,12 +159,17 @@ export default function HeaderMegaMenu() {
             </Group>
           ) : (
             <Group visibleFrom="sm">
-              <Button variant="default" onClick={() => router.push("/log-in")}>
+              <Button
+                variant="default"
+                onClick={() => router.push("/log-in")}
+                radius="md"
+              >
                 Logowanie
               </Button>
               <Button
                 style={{ backgroundColor: "#c47f25ff" }}
                 onClick={() => router.push("/create-account")}
+                radius="md"
               >
                 Rejestracja
               </Button>
@@ -200,7 +204,7 @@ export default function HeaderMegaMenu() {
               <Box component="span" mr={5}>
                 Funkcje
               </Box>
-              <IconChevronDown size={16} color={theme.colors.blue[6]} />
+              <IconChevronDown size={16} />
             </Center>
           </UnstyledButton>
           <Collapse in={linksOpened}>{links}</Collapse>
