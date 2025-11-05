@@ -17,7 +17,7 @@
   border: 1px solid
     light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 
-  background-color: light-dark(rgba(255, 255, 255, 0.6), rgba(30, 30, 30, 0.6));
+  background-color: light-dark(rgba(255, 255, 255, 0.6), rgba(30, 30, 30, 0.1));
 
   backdrop-filter: blur(4px);
 
@@ -46,7 +46,7 @@
   @mixin hover {
     background-color: light-dark(
       var(--mantine-color-gray-0),
-      var(--mantine-color-dark-6)
+      var(--mantine-color-black-6)
     );
   }
 }
@@ -66,9 +66,10 @@
 
 .dropdownFooter {
   background-color: light-dark(
-    var(--mantine-color-gray-0),
-    var(--mantine-color-dark-7)
-  );
+    rgba(255, 255, 255, 0.6),
+    rgba(30, 30, 30, 0.1)
+  ) !important;
+  backdrop-filter: blur(4px);
   margin: calc(var(--mantine-spacing-md) * -1);
   margin-top: var(--mantine-spacing-sm);
   padding: var(--mantine-spacing-md) calc(var(--mantine-spacing-md) * 2);

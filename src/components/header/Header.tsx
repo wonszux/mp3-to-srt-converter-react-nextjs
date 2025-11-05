@@ -106,7 +106,11 @@ export default function HeaderMegaMenu() {
               </HoverCard.Target>
 
               <HoverCard.Dropdown
-                style={{ overflow: "hidden", width: "800px" }}
+                style={{
+                  overflow: "hidden",
+                  width: "800px",
+                  marginTop: "20px",
+                }}
               >
                 <Group justify="space-between" px="md">
                   <Text fw={500}>Aplikacje</Text>
