@@ -98,9 +98,10 @@ export default function RegisterForm() {
         </Group>
 
         <Button
+          size="md"
           fullWidth
           mt="xl"
-          radius="md"
+          radius="xl"
           onClick={handleSignUp}
           loading={loading}
           color="orange"

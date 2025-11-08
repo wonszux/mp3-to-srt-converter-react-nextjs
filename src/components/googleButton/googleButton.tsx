@@ -6,8 +6,9 @@ export default function GoogleButton() {
   return (
     <Button
       fullWidth
+      size="md"
       mt="sm"
-      radius="md"
+      radius="xl"
       leftSection={<IconBrandGoogleFilled size={20} />}
       variant="default"
       // onClick={() => signInGoogle()}

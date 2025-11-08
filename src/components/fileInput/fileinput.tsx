@@ -15,6 +15,30 @@ import { useState } from "react";
 
 export default function FileInput() {
   const [active, setActive] = useState("file");
+  const [loading, setLoading] = useState(false);
+  const [urlInput, setUrlInput] = useState("");
+
+  const ACCEPTED_AUDIO_MIME_TYPES = [
+    "audio/mpeg",
+    "audio/wav",
+    "video/mp4",
+    "video/x-msvideo",
+    "video/quicktime",
+  ];
+
+  const handleFileUpload = (files: File[]) => {
+    if (files.length > 0) {
+      setLoading(true);
+      console.log("Przyjęte pliki:", files);
+    }
+  };
+
+  const handleUrlSubmit = () => {
+    if (urlInput.trim()) {
+      setLoading(true);
+      console.log("Link do przetworzenia:", urlInput);
+    }
+  };
 
   return (
     <Container
@@ -51,11 +75,10 @@ export default function FileInput() {
         </Container>
         {active === "file" ? (
           <Dropzone
-            onDrop={(files) => console.log("accepted files", files)}
+            onDrop={handleFileUpload}
             onReject={(files) => console.log("rejected files", files)}
-            maxSize={5 * 1024 ** 2}
-            accept={IMAGE_MIME_TYPE}
-            //bg = asdasd
+            maxSize={50 * 1024 ** 2}
+            accept={ACCEPTED_AUDIO_MIME_TYPES}
             w="100%"
             mih={300}
             radius={35}
@@ -96,11 +119,10 @@ export default function FileInput() {
 
               <div>
                 <Text size="xl" inline>
-                  Drag images here or click to select files
+                  Kliknij lub przeciągnij, aby przesłać plik
                 </Text>
                 <Text size="sm" c="dimmed" inline mt={7}>
-                  Attach as many files as you like, each file should not exceed
-                  5mb
+                  Dozwolone formaty to: MP3, MP4, WAV, AVI, MOV
                 </Text>
               </div>
             </Group>
@@ -110,7 +132,6 @@ export default function FileInput() {
             w="100%"
             mih={300}
             bdrs={35}
-            bg="#181818ff"
             style={{
               display: "flex",
               justifyContent: "center",
@@ -125,9 +146,15 @@ export default function FileInput() {
                 placeholder="np. https://www.youtube.com/watch?v=wCVwD..."
                 radius={30}
                 size="md"
+                onChange={(event) => setUrlInput(event.currentTarget.value)}
                 style={{ width: "80%", minWidth: 250, maxWidth: 600 }}
               />
-              <Button variant="outline" color="gray" radius={6}>
+              <Button
+                variant="outline"
+                color="gray"
+                radius={6}
+                onClick={handleUrlSubmit}
+              >
                 Generuj
               </Button>
             </Stack>
