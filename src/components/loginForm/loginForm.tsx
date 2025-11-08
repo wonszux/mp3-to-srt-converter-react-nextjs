@@ -86,7 +86,7 @@ export default function LoginForm() {
           radius="md"
           value={password}
           onChange={(event) => setPassword(event.currentTarget.value)}
-          //trzeba dodac kolor pomaranczowy 🍸
+          //trzeba dodac kolor pomaranczowy brodera od hasła pozdro 🍸
         />
         <Group justify="space-between" mt="lg">
           <Checkbox
