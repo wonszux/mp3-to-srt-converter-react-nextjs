@@ -74,7 +74,7 @@ export default function HeaderMegaMenu() {
   return (
     <Box h={80}>
       <header className={classes.header}>
-        <Group justify="space-between" h="100%" px="xl">
+        <Group justify="space-between" h="100%" px="lg">
           <Image
             h={30}
             w="auto"
