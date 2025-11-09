@@ -5,12 +5,26 @@ import {
   MantineProvider,
   mantineHtmlProps,
   createTheme,
+  MantineColorsTuple,
 } from "@mantine/core";
 import ClientLayout from "@/components/appShell/ClientLayout";
 
 export const metadata = {
   title: "ConvertSRT",
 };
+
+const myColor: MantineColorsTuple = [
+  "#fff8e1",
+  "#ffefcb",
+  "#ffdd9a",
+  "#ffca64",
+  "#ffba38",
+  "#ffb01b",
+  "#ffa903",
+  "#e39500",
+  "#cb8400",
+  "#b07100",
+];
 
 const theme = createTheme({
   colors: {
@@ -26,7 +40,9 @@ const theme = createTheme({
       "#141517",
       "#101113",
     ],
+    myColor,
   },
+  primaryColor: "myColor",
 });
 
 export default function RootLayout({

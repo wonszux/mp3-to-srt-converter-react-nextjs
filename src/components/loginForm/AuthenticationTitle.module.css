@@ -9,11 +9,3 @@
   text-align: center;
   margin-top: 5px;
 }
-
-.input:focus {
-  border-color: #e9771aff !important;
-}
-
-.root:focus-within {
-  border-color: #e9771aff !important;
-}

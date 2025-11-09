@@ -67,7 +67,7 @@ export default function LoginForm() {
 
       <Paper withBorder shadow="sm" p={27} mt={30} radius="lg">
         {error && (
-          <Text color="red" size="sm" ta="center" mt="md">
+          <Text c="red" size="sm" ta="center" mt="md">
             {error}
           </Text>
         )}
@@ -77,7 +77,6 @@ export default function LoginForm() {
           radius="md"
           value={email}
           onChange={(event) => setEmail(event.currentTarget.value)}
-          classNames={{ root: classes.root, input: classes.input }}
         />
         <PasswordInput
           placeholder="Twoje hasło"
@@ -86,7 +85,6 @@ export default function LoginForm() {
           radius="md"
           value={password}
           onChange={(event) => setPassword(event.currentTarget.value)}
-          //trzeba dodac kolor pomaranczowy brodera od hasła pozdro 🍸
         />
         <Group justify="space-between" mt="lg">
           <Checkbox

@@ -197,7 +197,7 @@ export default function HeaderMegaMenu() {
         opened={drawerOpened}
         onClose={closeDrawer}
         size="100%"
-        padding="md"
+        padding="lg"
         zIndex={1000000}
         hiddenFrom="lg"
       >
