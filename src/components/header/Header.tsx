@@ -197,9 +197,9 @@ export default function HeaderMegaMenu() {
         opened={drawerOpened}
         onClose={closeDrawer}
         size="100%"
-        padding="md" // Usunięto title="Navigation"
+        padding="md"
         zIndex={1000000}
-        hiddenFrom="lg" // Ukrywamy, jeśli ekran jest duży, by uniknąć konfliktu z Grupą 1
+        hiddenFrom="lg"
       >
         <ScrollArea h="calc(100vh - 80px)" mx="-md">
           <Group px="md" py="sm">
@@ -226,7 +226,6 @@ export default function HeaderMegaMenu() {
               </Box>
               <IconChevronDown size={16} />
             </Center>
-                     {" "}
           </UnstyledButton>
           <Collapse in={linksOpened}>{links}</Collapse>
           <a href="#" className={classes.link}>
