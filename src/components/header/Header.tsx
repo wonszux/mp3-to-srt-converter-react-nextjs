@@ -193,44 +193,86 @@ export default function HeaderMegaMenu() {
           />
         </Group>
       </header>
-
       <Drawer
         opened={drawerOpened}
         onClose={closeDrawer}
         size="100%"
-        padding="md"
-        title="Navigation"
-        hiddenFrom="sm"
+        padding="md" // Usunięto title="Navigation"
         zIndex={1000000}
+        hiddenFrom="lg" // Ukrywamy, jeśli ekran jest duży, by uniknąć konfliktu z Grupą 1
       >
-        <ScrollArea h="calc(100vh - 80px" mx="-md">
+        <ScrollArea h="calc(100vh - 80px)" mx="-md">
+          <Group px="md" py="sm">
+            <Image
+              h={30}
+              w="auto"
+              fit="contain"
+              src="/logo.svg"
+              alt="Logo"
+              onClick={() => {
+                router.push("/");
+                closeDrawer();
+              }}
+            />
+          </Group>
           <Divider my="sm" />
-
           <a href="#" className={classes.link}>
             Strona główna
           </a>
           <UnstyledButton className={classes.link} onClick={toggleLinks}>
             <Center inline>
               <Box component="span" mr={5}>
-                Funkcje
+                Aplikacje
               </Box>
               <IconChevronDown size={16} />
             </Center>
+                     {" "}
           </UnstyledButton>
           <Collapse in={linksOpened}>{links}</Collapse>
           <a href="#" className={classes.link}>
             O nas
           </a>
           <a href="#" className={classes.link}>
-            Kontakt
+            Szkolenia
           </a>
-
           <Divider my="sm" />
-
-          <Group justify="center" grow pb="xl" px="md">
-            <Button variant="default">Log in</Button>
-            <Button>Sign up</Button>
-          </Group>
+          {data ? (
+            <Group justify="center" grow pb="xl" px="md">
+              <Button
+                style={{ backgroundColor: "#c47f25ff" }}
+                onClick={() => {
+                  router.push("/user-panel");
+                  closeDrawer();
+                }}
+              >
+                Panel Użytkownika
+              </Button>
+              <Button variant="default" onClick={signOut}>
+                Wyloguj
+              </Button>
+            </Group>
+          ) : (
+            <Group justify="center" grow pb="xl" px="md">
+              <Button
+                variant="default"
+                onClick={() => {
+                  router.push("/log-in");
+                  closeDrawer();
+                }}
+              >
+                Logowanie
+              </Button>
+              <Button
+                style={{ backgroundColor: "#c47f25ff" }}
+                onClick={() => {
+                  router.push("/create-account");
+                  closeDrawer();
+                }}
+              >
+                Rejestracja
+              </Button>
+            </Group>
+          )}
         </ScrollArea>
       </Drawer>
     </Box>
