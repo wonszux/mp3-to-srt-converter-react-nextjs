@@ -53,6 +53,37 @@ export default function HeaderMegaMenu() {
     router.refresh();
   };
 
+  const authButtons = data ? (
+    <>
+      <Button
+        style={{ backgroundColor: "#c47f25ff" }}
+        onClick={() => router.push("/user-panel")}
+      >
+        Panel Użytkownika
+      </Button>
+      <Button variant="default" onClick={signOut}>
+        Wyloguj
+      </Button>
+    </>
+  ) : (
+    <>
+      <Button
+        variant="default"
+        onClick={() => router.push("/log-in")}
+        radius="md"
+      >
+        Logowanie
+      </Button>
+      <Button
+        style={{ backgroundColor: "#c47f25ff" }}
+        onClick={() => router.push("/create-account")}
+        radius="md"
+      >
+        Rejestracja
+      </Button>
+    </>
+  );
+
   const links = mockdata.map((item) => (
     <UnstyledButton className={classes.subLink} key={item.title}>
       <Group wrap="nowrap" align="flex-start">
@@ -83,7 +114,7 @@ export default function HeaderMegaMenu() {
             alt="Logo"
             onClick={() => router.push("/")}
           />
-          <Group align="center" ml={25}>
+          <Group align="center" ml={25} visibleFrom="xl">
             <a href="#" className={classes.link}>
               Strona główna
             </a>
@@ -104,7 +135,6 @@ export default function HeaderMegaMenu() {
                   </Center>
                 </a>
               </HoverCard.Target>
-
               <HoverCard.Dropdown
                 style={{
                   overflow: "hidden",
@@ -119,7 +149,6 @@ export default function HeaderMegaMenu() {
                 <SimpleGrid cols={2} spacing={0}>
                   {links}
                 </SimpleGrid>
-
                 <div className={classes.dropdownFooter}>
                   <Group justify="space-between">
                     <div>
@@ -148,42 +177,19 @@ export default function HeaderMegaMenu() {
               Szkolenia
             </a>
           </Group>
+          <Group align="center" gap="md" visibleFrom="xl">
+            {authButtons}
+          </Group>
 
-          {data ? (
-            <Group visibleFrom="sm">
-              <Button
-                style={{ backgroundColor: "#c47f25ff" }}
-                onClick={() => router.push("/user-panel")}
-              >
-                Panel Użytkownika
-              </Button>
-              <Button variant="default" onClick={signOut}>
-                Wyloguj
-              </Button>
-            </Group>
-          ) : (
-            <Group visibleFrom="sm">
-              <Button
-                variant="default"
-                onClick={() => router.push("/log-in")}
-                radius="md"
-              >
-                Logowanie
-              </Button>
-              <Button
-                style={{ backgroundColor: "#c47f25ff" }}
-                onClick={() => router.push("/create-account")}
-                radius="md"
-              >
-                Rejestracja
-              </Button>
-            </Group>
-          )}
+          <Group align="center" gap="md" visibleFrom="md" hiddenFrom="xl">
+            {authButtons}
+            <Burger opened={drawerOpened} onClick={toggleDrawer} />
+          </Group>
 
           <Burger
             opened={drawerOpened}
             onClick={toggleDrawer}
-            hiddenFrom="sm"
+            hiddenFrom="md"
           />
         </Group>
       </header>

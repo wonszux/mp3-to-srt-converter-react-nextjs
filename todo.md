@@ -1,1 +1,2 @@
-modal z komponentem regiserForm -> napraw routerpush
+Burger w headerze
+modal z komponentem regiserForm -> napraw routerPush()
