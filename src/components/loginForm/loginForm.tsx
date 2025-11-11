@@ -34,6 +34,7 @@ export default function LoginForm() {
     try {
       await signIn(email, password, rememberMe);
       router.push("/user-panel");
+      router.refresh();
     } catch (error) {
       console.error("Błąd podczas logowania: ", error);
       if (error instanceof Error) {

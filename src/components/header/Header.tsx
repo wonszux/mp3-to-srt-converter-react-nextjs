@@ -58,24 +58,25 @@ export default function HeaderMegaMenu() {
       <Button
         style={{ backgroundColor: "#c47f25ff" }}
         onClick={() => router.push("/user-panel")}
+        radius="md"
       >
         Panel Użytkownika
       </Button>
-      <Button variant="default" onClick={signOut}>
+      <Button variant="default" onClick={signOut} radius="md">
         Wyloguj
       </Button>
     </>
   ) : (
     <>
       <Button
-        variant="default"
+        style={{ backgroundColor: "#c47f25ff" }}
         onClick={() => router.push("/log-in")}
         radius="md"
       >
         Logowanie
       </Button>
       <Button
-        style={{ backgroundColor: "#c47f25ff" }}
+        variant="default"
         onClick={() => router.push("/create-account")}
         radius="md"
       >

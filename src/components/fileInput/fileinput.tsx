@@ -10,13 +10,12 @@ import {
   Modal,
   Image,
 } from "@mantine/core";
-import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import { Dropzone } from "@mantine/dropzone";
 import { useDisclosure } from "@mantine/hooks";
-import { IconFileDownload, IconLink } from "@tabler/icons-react";
+import { IconLink } from "@tabler/icons-react";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import RegisterForm from "../registerForm/registerForm";
-import { Box, Icon } from "lucide-react";
 
 export default function FileInput() {
   const [active, setActive] = useState("file");
@@ -36,13 +35,10 @@ export default function FileInput() {
     setLoading(true);
     if (files.length > 0) {
       console.log("Przyjęte pliki:", files);
-
-      // 1. Uruchomienie ładowania po upuszczeniu pliku.
-      // 2. Symulacja asynchronicznej operacji (np. wysyłania pliku na serwer).
       setTimeout(() => {
-        setLoading(false); // 3. Wyłącz ładowanie (zniknie spinner).
-        open(); // 4. Otwórz Modal (wywołanie funkcji 'open').
-      }, 2000); // Czas oczekiwania 2 sekundy.
+        setLoading(false);
+        open();
+      }, 2000);
     } else {
       setLoading(false);
     }
@@ -52,19 +48,15 @@ export default function FileInput() {
     if (urlInput.trim()) {
       setLoading(true);
       console.log("Link do przetworzenia:", urlInput);
-
-      // Symulacja asynchronicznej operacji (np. przetwarzania linku).
       setTimeout(() => {
-        setLoading(false); // Wyłącz ładowanie.
-        open(); // Otwórz Modal.
+        setLoading(false);
+        open();
       }, 2000);
     }
   };
 
   return (
     <>
-      {" "}
-      {/* Dodany Fragment (<>) do objęcia dwóch głównych elementów */}
       <Container
         p={20}
         bdrs={50}

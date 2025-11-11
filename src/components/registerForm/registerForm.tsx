@@ -31,15 +31,20 @@ export default function RegisterForm() {
 
   const handleSignUp = async () => {
     setLoading(true);
+    let registrationSuccess = false; // 1. Dodaj flagę sukcesu
+
     try {
       await signUp(email, password, name);
       console.log("Rejestracja pomyślna!");
+      registrationSuccess = true; // 2. Ustaw flagę na true po sukcesie
     } catch (error) {
       console.error("Błąd rejestracji:", error);
+      // registrationSuccess pozostaje false
     } finally {
       setLoading(false);
-      if (data) {
-        console.log("With modal works fine");
+      if (registrationSuccess) {
+        // 3. Sprawdź flagę sukcesu, a nie 'data'
+        console.log("Rejestracja udana, przekierowanie...");
         router.push("/user-panel");
         router.refresh();
       }
@@ -88,7 +93,6 @@ export default function RegisterForm() {
           radius="md"
           value={password}
           onChange={(event) => setPassword(event.currentTarget.value)}
-          //trzeba dodac kolor pomaranczowy 🍸
         />
 
         <Group justify="space-between" mt="lg">
