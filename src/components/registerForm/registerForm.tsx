@@ -39,6 +39,7 @@ export default function RegisterForm() {
     } finally {
       setLoading(false);
       if (data) {
+        console.log("With modal works fine");
         router.push("/user-panel");
         router.refresh();
       }
