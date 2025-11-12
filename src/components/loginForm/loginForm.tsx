@@ -18,7 +18,7 @@ import { useState } from "react";
 import classes from "./AuthenticationTitle.module.css";
 import GoogleButton from "../googleButton/googleButton";
 import { signIn } from "@/server/users";
-import { useRouter, redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");

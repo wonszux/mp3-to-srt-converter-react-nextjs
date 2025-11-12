@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   Button,
@@ -9,51 +9,59 @@ import {
   Group,
   Modal,
   Image,
-} from "@mantine/core";
-import { Dropzone } from "@mantine/dropzone";
-import { useDisclosure } from "@mantine/hooks";
-import { IconLink } from "@tabler/icons-react";
-import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
-import { useState } from "react";
-import RegisterForm from "../registerForm/registerForm";
+  Progress,
+  Box,
+} from '@mantine/core'
+import { Dropzone } from '@mantine/dropzone'
+import { useDisclosure } from '@mantine/hooks'
+import { IconLink } from '@tabler/icons-react'
+import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react'
+import { useState } from 'react'
+import RegisterForm from '../registerForm/registerForm'
+import { authClient } from '@/lib/auth-client'
 
 export default function FileInput() {
-  const [active, setActive] = useState("file");
-  const [loading, setLoading] = useState(false);
-  const [urlInput, setUrlInput] = useState("");
-  const [opened, { open, close }] = useDisclosure(false);
+  const [active, setActive] = useState('file')
+  const [loading, setLoading] = useState(false)
+  const [urlInput, setUrlInput] = useState('')
+  const [opened, { open, close }] = useDisclosure(false)
+  const { data } = authClient.useSession()
 
   const ACCEPTED_AUDIO_MIME_TYPES = [
-    "audio/mpeg",
-    "audio/wav",
-    "video/mp4",
-    "video/x-msvideo",
-    "video/quicktime",
-  ];
+    'audio/mpeg',
+    'audio/wav',
+    'video/mp4',
+    'video/x-msvideo',
+    'video/quicktime',
+  ]
 
   const handleFileUpload = (files: File[]) => {
-    setLoading(true);
+    setLoading(true)
     if (files.length > 0) {
-      console.log("Przyjęte pliki:", files);
-      setTimeout(() => {
-        setLoading(false);
-        open();
-      }, 2000);
+      console.log('Przyjęte pliki:', files)
+      {
+        data
+          ? null
+          : setTimeout(() => {
+              setLoading(false)
+              open()
+            }, 1500)
+      }
     } else {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handleUrlSubmit = () => {
     if (urlInput.trim()) {
-      setLoading(true);
-      console.log("Link do przetworzenia:", urlInput);
+      setLoading(true)
+      console.log('Link do przetworzenia:', urlInput)
       setTimeout(() => {
-        setLoading(false);
-        open();
-      }, 2000);
+        setLoading(false)
+        open()
+      }, 2000)
     }
-  };
+  }
 
   return (
     <>
@@ -61,37 +69,37 @@ export default function FileInput() {
         p={20}
         bdrs={50}
         style={{
-          border: "solid 1px #444",
+          border: 'solid 1px #444',
         }}
       >
         <Stack align="center">
           <Container
             style={{
-              display: "flex",
-              gap: "10px",
+              display: 'flex',
+              gap: '10px',
             }}
           >
             <Button
               variant="light"
-              color={active === "file" ? "orange" : "gray"}
-              onClick={() => setActive("file")}
+              color={active === 'file' ? 'orange' : 'gray'}
+              onClick={() => setActive('file')}
               radius={6}
             >
               Prześlij plik
             </Button>
             <Button
               variant="light"
-              color={active === "link" ? "orange" : "gray"}
-              onClick={() => setActive("link")}
+              color={active === 'link' ? 'orange' : 'gray'}
+              onClick={() => setActive('link')}
               radius={6}
             >
               Wklej link
             </Button>
           </Container>
-          {active === "file" ? (
+          {active === 'file' ? (
             <Dropzone
               onDrop={handleFileUpload}
-              onReject={(files) => console.log("rejected files", files)}
+              onReject={(files) => console.log('rejected files', files)}
               maxSize={50 * 1024 ** 2}
               accept={ACCEPTED_AUDIO_MIME_TYPES}
               loading={loading}
@@ -99,38 +107,21 @@ export default function FileInput() {
               mih={300}
               radius={35}
               style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                border: "dashed 1px gray",
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                border: 'dashed 1px gray',
               }}
             >
-              <Group
-                justify="center"
-                gap="xl"
-                mih={220}
-                style={{ pointerEvents: "none" }}
-              >
+              <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: 'none' }}>
                 <Dropzone.Accept>
-                  <IconUpload
-                    size={52}
-                    color="var(--mantine-color-blue-6)"
-                    stroke={1.5}
-                  />
+                  <IconUpload size={52} color="var(--mantine-color-blue-6)" stroke={1.5} />
                 </Dropzone.Accept>
                 <Dropzone.Reject>
-                  <IconX
-                    size={52}
-                    color="var(--mantine-color-red-6)"
-                    stroke={1.5}
-                  />
+                  <IconX size={52} color="var(--mantine-color-red-6)" stroke={1.5} />
                 </Dropzone.Reject>
                 <Dropzone.Idle>
-                  <IconPhoto
-                    size={52}
-                    color="var(--mantine-color-dimmed)"
-                    stroke={1.5}
-                  />
+                  <IconPhoto size={52} color="var(--mantine-color-dimmed)" stroke={1.5} />
                 </Dropzone.Idle>
 
                 <div>
@@ -149,34 +140,45 @@ export default function FileInput() {
               mih={300}
               bdrs={35}
               style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                border: "dashed 1px gray",
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                border: 'dashed 1px gray',
               }}
             >
               <Stack align="center" justify="center" w="100%" p="md">
                 <IconLink size={50} />
-                <Text>Wklej link, a następnie kliknij "Generuj"</Text>
+                <Text>Wklej link, a następnie kliknij &quot;Generuj&quot;</Text>
                 <TextInput
                   placeholder="np. https://www.youtube.com/watch?v=wCVwD..."
                   radius={30}
                   size="md"
                   onChange={(event) => setUrlInput(event.currentTarget.value)}
-                  style={{ width: "80%", minWidth: 250, maxWidth: 600 }}
+                  style={{ width: '80%', minWidth: 250, maxWidth: 600 }}
                 />
-                <Button
-                  variant="outline"
-                  color="gray"
-                  radius={6}
-                  onClick={handleUrlSubmit}
-                >
+                <Button variant="outline" color="gray" radius={6} onClick={handleUrlSubmit}>
                   Generuj
                 </Button>
               </Stack>
             </Container>
           )}
         </Stack>
+        {/* TO MA BYĆ WIDOCZNE TYLKO GDY UZYTKOWNIK JEST ZALOGOWANY */}
+        {data ? (
+          <Container mt="lg">
+            <Box
+              mt="md"
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <Progress value={50} w="30%" />
+              <Text>Pozostało 2.5/5 min</Text>
+            </Box>
+          </Container>
+        ) : null}
       </Container>
       <Modal
         withCloseButton={false}
@@ -187,22 +189,15 @@ export default function FileInput() {
         lockScroll={false}
         styles={{
           content: {
-            border: "1px solid var(--mantine-color-gray-8)",
+            border: '1px solid var(--mantine-color-gray-8)',
           },
         }}
       >
         <Group pt={30} justify="center" mb="md">
-          <Image
-            h={40}
-            w="auto"
-            fit="contain"
-            src="/logo.svg"
-            alt="Logo"
-            opacity={0.8}
-          ></Image>
+          <Image h={40} w="auto" fit="contain" src="/logo.svg" alt="Logo" opacity={0.8}></Image>
         </Group>
         <RegisterForm />
       </Modal>
     </>
-  );
+  )
 }

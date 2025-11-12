@@ -1,4 +1,4 @@
-import { Container, Title } from "@mantine/core";
+import { Container } from "@mantine/core";
 
 import RegisterForm from "@/components/registerForm/registerForm";
 
