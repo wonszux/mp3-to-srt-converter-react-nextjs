@@ -1,16 +1,24 @@
 import { SimpleGrid, Container, Title } from "@mantine/core";
-import { IconCheck, IconRocket, IconMail } from '@tabler/icons-react';
+import { IconCheck, IconRocket, IconMail } from "@tabler/icons-react";
 import { PlanCard } from "./planCard";
 
 const plans = [
   {
     name: "Free",
     price: "0",
-    time: "3",
+    time: "5",
     features: [
-      { title: 'Priorytet', description: 'Brak priorytetu dostępu', icon: IconCheck },
-      { title: 'Prędkość', description: 'Powolna transkrypcja', icon: IconRocket },
-      { title: 'Wsparcie', description: 'Brak wsparcia', icon: IconMail },
+      {
+        title: "Priorytet",
+        description: "Brak priorytetu dostępu",
+        icon: IconCheck,
+      },
+      {
+        title: "Prędkość",
+        description: "Powolna transkrypcja",
+        icon: IconRocket,
+      },
+      { title: "Wsparcie", description: "Brak wsparcia", icon: IconMail },
     ],
   },
   {
@@ -18,20 +26,44 @@ const plans = [
     price: "29",
     time: "60",
     features: [
-      { title: 'Priorytet', description: 'Wyższy priorytet dostępu', icon: IconCheck },
-      { title: 'Prędkość', description: 'Szybka transkrypcja', icon: IconRocket },
-      { title: 'Wsparcie', description: 'Wsparcie niepriorytetowe', icon: IconMail },
+      {
+        title: "Priorytet",
+        description: "Wyższy priorytet dostępu",
+        icon: IconCheck,
+      },
+      {
+        title: "Prędkość",
+        description: "Szybka transkrypcja",
+        icon: IconRocket,
+      },
+      {
+        title: "Wsparcie",
+        description: "Wsparcie niepriorytetowe",
+        icon: IconMail,
+      },
     ],
     highlighted: true,
   },
   {
     name: "Pro",
-    price: "49", 
+    price: "49",
     time: "600",
     features: [
-      { title: 'Priorytet', description: 'Najwyższy priorytet dostępu', icon: IconCheck },
-      { title: 'Prędkość', description: 'Najszybsza transkrypcja', icon: IconRocket },
-      { title: 'Wsparcie', description: 'Wsparcie priorytetowe', icon: IconMail },
+      {
+        title: "Priorytet",
+        description: "Najwyższy priorytet dostępu",
+        icon: IconCheck,
+      },
+      {
+        title: "Prędkość",
+        description: "Najszybsza transkrypcja",
+        icon: IconRocket,
+      },
+      {
+        title: "Wsparcie",
+        description: "Wsparcie priorytetowe",
+        icon: IconMail,
+      },
     ],
   },
 ];

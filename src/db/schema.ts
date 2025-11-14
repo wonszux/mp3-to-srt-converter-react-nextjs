@@ -60,9 +60,29 @@ export const verification = pgTable("verification", {
     .notNull(),
 });
 
+export const file = pgTable("file", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
+  type: text("type").notNull(),
+  size: text("size").notNull(),
+  duration: text("duration").notNull(),
+  url: text("url").notNull(),
+  status: text("status")
+    .$type<"pending" | "processing" | "completed" | "failed">()
+    .default("pending"),
+  srtUrl: text("srt_url"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .notNull()
+    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .notNull(),
+});
+
 export const schema = {
   user,
   session,
   account,
   verification,
+  file,
 };
