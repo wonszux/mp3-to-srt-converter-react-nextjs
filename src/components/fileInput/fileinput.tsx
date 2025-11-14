@@ -35,19 +35,46 @@ export default function FileInput() {
     "video/quicktime",
   ];
 
-  const handleFileUpload = (files: File[]) => {
+  const handleFileUpload = async (files: File[]) => {
+    if (files.length === 0) return;
+
     setLoading(true);
-    if (files.length > 0) {
-      console.log("Przyjęte pliki:", files);
-      {
-        data
-          ? null
-          : setTimeout(() => {
-              setLoading(false);
-              open();
-            }, 1500);
+    const fileToUpload = files[0];
+
+    if (!data?.user?.id) {
+      console.warn(
+        "Użytkownik nie jest zalogowany. Otwieram modal rejestracji."
+      );
+      setTimeout(() => {
+        setLoading(false);
+        open();
+      }, 1000);
+      return;
+    }
+
+    const userId = data.user.id;
+    const formData = new FormData();
+    formData.append("file", fileToUpload);
+    formData.append("userId", userId);
+
+    try {
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Błąd przesyłania: ${response.statusText}`);
       }
-    } else {
+
+      const result = await response.json();
+      console.log("Przesyłanie zakończone sukcesem:", result);
+
+      alert(`Plik przesłany! ID: ${result.id}`);
+    } catch (error) {
+      console.error("Wystąpił błąd podczas wysyłania pliku:", error);
+      alert("Wystąpił błąd podczas przesyłania pliku.");
+    } finally {
       setLoading(false);
     }
   };

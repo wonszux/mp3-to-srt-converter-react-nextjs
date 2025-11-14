@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { authClient } from "@lib/supabase-js";
+import { storageClient } from "@/lib/storage-client";
 import { db } from "@/db/drizzle";
 import { file as fileTable } from "@/db/schema";
 import { randomUUID } from "crypto";
@@ -13,10 +13,7 @@ export async function POST(req: Request) {
     if (!uploadFile) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
-    const supabase = authClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
+    const supabase = storageClient;
 
     const fileId = randomUUID();
     const filePath = `${userId}/${fileId}-${uploadFile.name}`;
