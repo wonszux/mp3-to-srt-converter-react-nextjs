@@ -13,6 +13,7 @@ export async function POST(req: Request) {
     if (!uploadFile) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
+
     const supabase = storageClient;
 
     const fileId = randomUUID();
