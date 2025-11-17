@@ -79,6 +79,8 @@ export default function FileInput() {
     }
   };
 
+
+  // Do Dokończenia
   const handleUrlSubmit = () => {
     if (urlInput.trim()) {
       setLoading(true);

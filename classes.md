@@ -11,7 +11,7 @@ Klasa Transkrypcja: Do reprezentowania pojedynczego zadania transkrypcji.
 
 Właściwości: idZadania, idUzytkownika, status (np. 'oczekujące', 'w toku', 'zakończone', 'błąd'), plikWejsciowy, wynikowyPlikSrt, dataUtworzenia, czasTrwania, rozmiar.
 
-Metody: assignTranscription(), SaveToDB(), getStatus(), generateDownloadLink().
+Metody: assignTranscription(), SaveToDB(), getStatus(), generateDownloadLink(), EditTranscription().
 
 
 
