@@ -26,24 +26,21 @@ export default function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { data } = authClient.useSession();
   const router = useRouter();
 
   const handleSignUp = async () => {
     setLoading(true);
-    let registrationSuccess = false; // 1. Dodaj flagę sukcesu
+    let registrationSuccess = false;
 
     try {
       await signUp(email, password, name);
       console.log("Rejestracja pomyślna!");
-      registrationSuccess = true; // 2. Ustaw flagę na true po sukcesie
+      registrationSuccess = true;
     } catch (error) {
       console.error("Błąd rejestracji:", error);
-      // registrationSuccess pozostaje false
     } finally {
       setLoading(false);
       if (registrationSuccess) {
-        // 3. Sprawdź flagę sukcesu, a nie 'data'
         console.log("Rejestracja udana, przekierowanie...");
         router.push("/user-panel");
         router.refresh();
