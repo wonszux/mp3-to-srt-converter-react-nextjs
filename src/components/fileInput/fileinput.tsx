@@ -25,7 +25,9 @@ export default function FileInput() {
   const [loading, setLoading] = useState(false);
   const [urlInput, setUrlInput] = useState("");
   const [opened, { open, close }] = useDisclosure(false);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const { data } = authClient.useSession();
+
 
   const ACCEPTED_AUDIO_MIME_TYPES = [
     "audio/mpeg",
@@ -69,6 +71,7 @@ export default function FileInput() {
 
       const result = await response.json();
       console.log("Przesyłanie zakończone sukcesem:", result);
+      setUploadedFile(fileToUpload);
 
       alert(`Plik przesłany! ID: ${result.id}`);
     } catch (error) {
@@ -126,6 +129,7 @@ export default function FileInput() {
             </Button>
           </Container>
           {active === "file" ? (
+            // {uploadedFile ===}
             <Dropzone
               onDrop={handleFileUpload}
               onReject={(files) => console.log("rejected files", files)}
