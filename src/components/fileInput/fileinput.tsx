@@ -12,20 +12,13 @@ import {
   Progress,
   Box,
   Card,
-  SimpleGrid,
-  Center,
   Flex,
   Select,
   ActionIcon,
 } from "@mantine/core";
 import { Dropzone } from "@mantine/dropzone";
 import { useDisclosure } from "@mantine/hooks";
-import {
-  IconFileDescription,
-  IconFileMusic,
-  IconLink,
-  IconTrash,
-} from "@tabler/icons-react";
+import { IconFileMusic, IconLink, IconTrash } from "@tabler/icons-react";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import RegisterForm from "../registerForm/registerForm";
