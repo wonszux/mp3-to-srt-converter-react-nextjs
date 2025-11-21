@@ -15,10 +15,17 @@ import {
   Flex,
   Select,
   ActionIcon,
+  Alert,
 } from "@mantine/core";
 import { Dropzone } from "@mantine/dropzone";
 import { useDisclosure } from "@mantine/hooks";
-import { IconFileMusic, IconLink, IconTrash } from "@tabler/icons-react";
+import {
+  IconFileMusic,
+  IconLink,
+  IconTrash,
+  IconCheck,
+  IconAlertCircle,
+} from "@tabler/icons-react";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import RegisterForm from "../registerForm/registerForm";
@@ -30,6 +37,15 @@ export default function FileInput() {
   const [urlInput, setUrlInput] = useState("");
   const [opened, { open, close }] = useDisclosure(false);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [fileId, setFileId] = useState<string | null>(null);
+  const [language, setLanguage] = useState("auto");
+  const [transcribing, setTranscribing] = useState(false);
+  const [transcriptionResult, setTranscriptionResult] = useState<{
+    success: boolean;
+    srtUrl?: string;
+    error?: string;
+  } | null>(null);
+
   const { data } = authClient.useSession();
 
   const ACCEPTED_AUDIO_MIME_TYPES = [
@@ -75,6 +91,8 @@ export default function FileInput() {
       const result = await response.json();
       console.log("Przesyłanie zakończone sukcesem:", result);
       setUploadedFile(fileToUpload);
+      setFileId(result.id);
+      setTranscriptionResult(null);
     } catch (error) {
       console.error("Wystąpił błąd podczas wysyłania pliku:", error);
       alert("Wystąpił błąd podczas przesyłania pliku.");
@@ -83,7 +101,50 @@ export default function FileInput() {
     }
   };
 
-  // Do Dokończenia
+  const handleGenerateTranscription = async () => {
+    if (!fileId) {
+      alert("Brak ID pliku. Prześlij plik ponownie.");
+      return;
+    }
+
+    setTranscribing(true);
+    setTranscriptionResult(null);
+
+    try {
+      const response = await fetch("/api/transcribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fileId,
+          language: language === "auto" ? undefined : language,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Błąd transkrypcji");
+      }
+
+      setTranscriptionResult({
+        success: true,
+        srtUrl: result.srtUrl,
+      });
+
+      console.log("Transkrypcja zakończona:", result);
+    } catch (error) {
+      console.error("Błąd podczas generowania transkrypcji:", error);
+      setTranscriptionResult({
+        success: false,
+        error: error instanceof Error ? error.message : "Nieznany błąd",
+      });
+    } finally {
+      setTranscribing(false);
+    }
+  };
+
   const handleUrlSubmit = () => {
     if (urlInput.trim()) {
       setLoading(true);
@@ -114,12 +175,17 @@ export default function FileInput() {
             variant="subtle"
             color="red"
             radius="lg"
-            onClick={() => setUploadedFile(null)}
+            onClick={() => {
+              setUploadedFile(null);
+              setFileId(null);
+              setTranscriptionResult(null);
+            }}
           >
             <IconTrash size={22} />
           </ActionIcon>
         </Group>
       </Card>
+
       <Flex direction="column" w="100%">
         <Text fw={600} mb={8}>
           Wybierz język napisów
@@ -129,15 +195,63 @@ export default function FileInput() {
           radius="lg"
           size="md"
           w="100%"
-          defaultValue="auto"
+          value={language}
+          onChange={(val) => setLanguage(val || "auto")}
           data={[
             { value: "auto", label: "Wykrywanie automatyczne" },
             { value: "pl", label: "Polski" },
             { value: "en", label: "Angielski" },
             { value: "de", label: "Niemiecki" },
           ]}
+          disabled={transcribing}
         />
       </Flex>
+
+      {transcriptionResult && (
+        <Alert
+          icon={
+            transcriptionResult.success ? (
+              <IconCheck size={16} />
+            ) : (
+              <IconAlertCircle size={16} />
+            )
+          }
+          title={transcriptionResult.success ? "Sukces!" : "Błąd"}
+          color={transcriptionResult.success ? "green" : "red"}
+          radius="md"
+        >
+          {transcriptionResult.success ? (
+            <>
+              <Text size="sm">Transkrypcja została ukończona pomyślnie!</Text>
+              {transcriptionResult.srtUrl && (
+                <Button
+                  component="a"
+                  href={transcriptionResult.srtUrl}
+                  target="_blank"
+                  size="xs"
+                  mt="sm"
+                  variant="light"
+                >
+                  Pobierz plik SRT
+                </Button>
+              )}
+            </>
+          ) : (
+            <Text size="sm">{transcriptionResult.error}</Text>
+          )}
+        </Alert>
+      )}
+
+      <Button
+        w="100%"
+        size="md"
+        radius="md"
+        onClick={handleGenerateTranscription}
+        loading={transcribing}
+        disabled={transcribing}
+      >
+        {transcribing ? "Generowanie..." : "Generuj"}
+      </Button>
     </Flex>
   ) : null;
 
@@ -231,12 +345,7 @@ export default function FileInput() {
                 </Group>
               </Dropzone>
             ) : (
-              <Stack w="100%">
-                {fileInfo}
-                <Button w="100%" size="md" radius="md">
-                  Generuj
-                </Button>
-              </Stack>
+              <Stack w="100%">{fileInfo}</Stack>
             )
           ) : (
             <Container
