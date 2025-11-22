@@ -30,6 +30,7 @@ import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import RegisterForm from "../registerForm/registerForm";
 import { authClient } from "@/lib/auth-client";
+import { transcriptionService } from "@/lib/transcription-service";
 
 export default function FileInput() {
   const [active, setActive] = useState("file");
@@ -78,10 +79,6 @@ export default function FileInput() {
     formData.append("file", fileToUpload);
     formData.append("userId", userId);
 
-    // const { data, error } = await supabase.storage
-    // .from("uploads")
-    // .download(uploadedFile.name);
-
     try {
       const response = await fetch("/api/upload", {
         method: "POST",
@@ -115,28 +112,12 @@ export default function FileInput() {
     setTranscriptionResult(null);
 
     try {
-      const response = await fetch("/api/transcribe", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fileId,
-          language: language === "auto" ? undefined : language,
-        }),
-      });
+      const result = await transcriptionService.startTranscription(
+        fileId,
+        language
+      );
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || "Błąd transkrypcji");
-      }
-
-      setTranscriptionResult({
-        success: true,
-        srtUrl: result.srtUrl,
-      });
-
+      setTranscriptionResult(result);
       console.log("Transkrypcja zakończona:", result);
     } catch (error) {
       console.error("Błąd podczas generowania transkrypcji:", error);
@@ -146,6 +127,35 @@ export default function FileInput() {
       });
     } finally {
       setTranscribing(false);
+    }
+  };
+
+  const handleDownloadSrt = async () => {
+    if (!fileId) {
+      alert("Brak ID pliku");
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/download-srt?fileId=${fileId}`);
+
+      if (!res.ok) {
+        alert("Nie można pobrać pliku.");
+        return;
+      }
+
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${fileId}.srt`;
+      a.click();
+
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Błąd pobierania SRT:", err);
+      alert("Wystąpił błąd podczas pobierania pliku.");
     }
   };
 
@@ -227,19 +237,6 @@ export default function FileInput() {
           {transcriptionResult.success ? (
             <>
               <Text size="sm">Transkrypcja została ukończona pomyślnie!</Text>
-              {transcriptionResult.srtUrl && (
-                <Button
-                  component="a"
-                  href={transcriptionResult.srtUrl}
-                  target="_blank"
-                  size="xs"
-                  mt="sm"
-                  variant="light"
-                  // onClick={}
-                >
-                  Pobierz plik SRT
-                </Button>
-              )}
             </>
           ) : (
             <Text size="sm">{transcriptionResult.error}</Text>
@@ -247,16 +244,22 @@ export default function FileInput() {
         </Alert>
       )}
 
-      <Button
-        w="100%"
-        size="md"
-        radius="md"
-        onClick={handleGenerateTranscription}
-        loading={transcribing}
-        disabled={transcribing}
-      >
-        {transcribing ? "Generowanie..." : "Generuj"}
-      </Button>
+      {transcriptionResult?.success ? (
+        <Button w="100%" size="md" radius="md" onClick={handleDownloadSrt}>
+          Pobierz plik SRT
+        </Button>
+      ) : (
+        <Button
+          w="100%"
+          size="md"
+          radius="md"
+          onClick={handleGenerateTranscription}
+          loading={transcribing}
+          disabled={transcribing}
+        >
+          {transcribing ? "Generowanie..." : "Generuj"}
+        </Button>
+      )}
     </Flex>
   ) : null;
 

@@ -10,6 +10,12 @@ export async function POST(req: Request) {
     const uploadFile = form.get("file") as File;
     const userId = form.get("userId") as string;
 
+    console.log("Upload request:", {
+      fileName: uploadFile?.name,
+      fileSize: uploadFile?.size,
+      userId,
+    });
+
     if (!uploadFile) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
@@ -19,6 +25,11 @@ export async function POST(req: Request) {
     const fileId = randomUUID();
     const filePath = `${userId}/${fileId}-${uploadFile.name}`;
 
+    console.log("⬆️ Uploading to Supabase:", {
+      bucket: "uploads",
+      path: filePath,
+    });
+
     const { error: uploadErr } = await supabase.storage
       .from("uploads")
       .upload(filePath, uploadFile, {
@@ -27,7 +38,7 @@ export async function POST(req: Request) {
       });
 
     if (uploadErr) {
-      console.error(uploadErr);
+      console.error("Upload error:", uploadErr);
       return NextResponse.json({ error: "Upload failed" }, { status: 500 });
     }
 
@@ -36,6 +47,12 @@ export async function POST(req: Request) {
       .getPublicUrl(filePath);
 
     const publicUrl = urlData.publicUrl;
+
+    console.log("File uploaded successfully:", {
+      fileId,
+      publicUrl,
+      path: filePath,
+    });
 
     await db.insert(fileTable).values({
       id: fileId,
@@ -47,13 +64,15 @@ export async function POST(req: Request) {
       status: "pending",
     });
 
+    console.log("Database record created:", fileId);
+
     return NextResponse.json({
       id: fileId,
       url: publicUrl,
       status: "pending",
     });
   } catch (err) {
-    console.error(err);
+    console.error("Server error:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

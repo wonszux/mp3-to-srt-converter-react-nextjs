@@ -3,7 +3,7 @@ import { db } from "@/db/drizzle";
 import { file as fileTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-// URL do twojego serwisu Docker (localhost jeśli lokalnie)
+// URL Docker
 const TRANSCRIPTION_SERVICE_URL =
   process.env.TRANSCRIPTION_SERVICE_URL || "http://localhost:5000";
 
