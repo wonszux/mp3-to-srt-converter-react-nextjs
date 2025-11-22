@@ -78,6 +78,10 @@ export default function FileInput() {
     formData.append("file", fileToUpload);
     formData.append("userId", userId);
 
+    // const { data, error } = await supabase.storage
+    // .from("uploads")
+    // .download(uploadedFile.name);
+
     try {
       const response = await fetch("/api/upload", {
         method: "POST",
@@ -231,6 +235,7 @@ export default function FileInput() {
                   size="xs"
                   mt="sm"
                   variant="light"
+                  // onClick={}
                 >
                   Pobierz plik SRT
                 </Button>
