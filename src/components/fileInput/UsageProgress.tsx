@@ -1,5 +1,6 @@
 import { Container, Box, Progress, Text } from "@mantine/core";
 
+// Trzeba to będzie zsychronizować z backendem
 interface UsageProgressProps {
   usedMinutes: number;
   totalMinutes: number;
