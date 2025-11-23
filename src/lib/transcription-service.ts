@@ -1,7 +1,3 @@
-/**
- * Serwis do obsługi transkrypcji audio
- * Zarządza komunikacją z API transkrypcji i pobieraniem plików SRT
- */
 export class TranscriptionService {
   private readonly baseUrl: string;
 
@@ -9,12 +5,8 @@ export class TranscriptionService {
     this.baseUrl = baseUrl;
   }
 
-  /**
-   * Rozpoczyna proces transkrypcji dla podanego pliku
-   * @param fileId - ID pliku w bazie danych
-   * @param language - Język transkrypcji (opcjonalny, domyślnie 'auto')
-   * @returns Promise z wynikiem transkrypcji
-   */
+  // Rozpoczyna proces transkrypcji dla podanego pliku
+
   async startTranscription(
     fileId: string,
     language?: string
@@ -52,20 +44,12 @@ export class TranscriptionService {
     }
   }
 
-  /**
-   * Pobiera plik SRT dla podanego pliku
-   * @param fileId - ID pliku w bazie danych
-   * @returns URL do pobrania pliku
-   */
+  // Zwraca URL do pliku SRT w storage
   getDownloadUrl(fileId: string): string {
     return `${this.baseUrl}/download-srt?fileId=${fileId}`;
   }
 
-  /**
-   * Pobiera plik SRT i zwraca jako Blob
-   * @param fileId - ID pliku w bazie danych
-   * @returns Promise z Blob pliku SRT
-   */
+  //  Zwraca plik SRT jako Blob
   async downloadSrtFile(fileId: string): Promise<Blob> {
     const response = await fetch(this.getDownloadUrl(fileId));
 
@@ -76,11 +60,7 @@ export class TranscriptionService {
     return await response.blob();
   }
 
-  /**
-   * Pobiera plik SRT i automatycznie rozpoczyna pobieranie w przeglądarce
-   * @param fileId - ID pliku w bazie danych
-   * @param filename - Opcjonalna nazwa pliku (domyślnie: {fileId}.srt)
-   */
+  // Pobiera i zapisuje plik w przeglądarce
   async triggerDownload(fileId: string, filename?: string): Promise<void> {
     const blob = await this.downloadSrtFile(fileId);
     const url = window.URL.createObjectURL(blob);
@@ -93,11 +73,7 @@ export class TranscriptionService {
     document.body.removeChild(a);
   }
 
-  /**
-   * Sprawdza status transkrypcji
-   * @param fileId - ID pliku w bazie danych
-   * @returns Promise ze statusem transkrypcji
-   */
+  // sprawdza status generowania SRT
   async checkStatus(fileId: string): Promise<TranscriptionStatus> {
     try {
       const response = await fetch(
@@ -119,14 +95,13 @@ export class TranscriptionService {
     } catch (error) {
       return {
         status: "error",
-        error: error instanceof Error ? error.message : "Nieznany błąd",
+        error: error instanceof Error ? error.message : "Błąd",
       };
     }
   }
 }
 
-// Typy TypeScript
-
+// To co zwracają funkcje powyżej
 export interface TranscriptionResult {
   success: boolean;
   fileId?: string;
@@ -141,5 +116,4 @@ export interface TranscriptionStatus {
   error?: string;
 }
 
-// Singleton instance do wykorzystania w całej aplikacji
 export const transcriptionService = new TranscriptionService();
