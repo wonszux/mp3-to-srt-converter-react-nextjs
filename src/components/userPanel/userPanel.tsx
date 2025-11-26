@@ -1,67 +1,33 @@
-"use client";
+'use client'
+import { Tabs, Container } from '@mantine/core'
+import { IconPhoto, IconMessageCircle, IconSettings } from '@tabler/icons-react'
 
-import { useState } from "react";
-import { Avatar, Group, Text, Accordion } from "@mantine/core";
+import UserHistory from '@/components/userPanel/userHistory'
+import FileInput from '../fileInput/fileinput'
 
-const charactersList = [
-  {
-    id: "bender",
-    label: "Bender Bending Rodríguez",
-    description: "Fascinated with cooking, though has no sense of taste",
-    content:
-      "Bender Bending Rodríguez, (born September 4, 2996), designated Bending Unit 22, and commonly known as Bender, is a bending unit created by a division of MomCorp in Tijuana, Mexico, and his serial number is 2716057. His mugshot id number is 01473. He is Fry's best friend.",
-  },
-
-  {
-    id: "carol",
-    label: "Carol Miller",
-    description: "One of the richest people on Earth",
-    content:
-      "Carol Miller (born January 30, 2880), better known as Mom, is the evil chief executive officer and shareholder of 99.7% of Momcorp, one of the largest industrial conglomerates in the universe and the source of most of Earth's robots. She is also one of the main antagonists of the Futurama series.",
-  },
-
-  {
-    id: "homer",
-    label: "Homer Simpson",
-    description: "Overweight, lazy, and often ignorant",
-    content:
-      "Homer Jay Simpson (born May 12) is the main protagonist and one of the five main characters of The Simpsons series(or show). He is the spouse of Marge Simpson and father of Bart, Lisa and Maggie Simpson.",
-  },
-];
-
-interface AccordionLabelProps {
-  label: string;
-  description: string;
-}
-
-function AccordionLabel({ label, description }: AccordionLabelProps) {
+export default function userPanel() {
   return (
-    <Group wrap="nowrap">
-      <div>
-        <Text>{label}</Text>
-        <Text size="sm" c="dimmed" fw={400}>
-          {description}
-        </Text>
-      </div>
-    </Group>
-  );
+    <Tabs variant="outline" radius="md" p="md" defaultValue="transcription">
+      <Tabs.List>
+        <Tabs.Tab value="transcription" leftSection={<IconPhoto size={12} />}>
+          Transkrypcja
+        </Tabs.Tab>
+        <Tabs.Tab value="history" leftSection={<IconMessageCircle size={12} />}>
+          Historia
+        </Tabs.Tab>
+        <Tabs.Tab value="settings" leftSection={<IconSettings size={12} />}>
+          Ustaiwenia
+        </Tabs.Tab>
+      </Tabs.List>
+      <Tabs.Panel mt="xl" value="transcription">
+        <Container>
+          <FileInput />
+        </Container>
+      </Tabs.Panel>
+      <Tabs.Panel value="history">
+        <UserHistory />
+      </Tabs.Panel>
+      <Tabs.Panel value="settings">Settings tab content</Tabs.Panel>
+    </Tabs>
+  )
 }
-
-function UserPanel() {
-  const items = charactersList.map((item) => (
-    <Accordion.Item value={item.id} key={item.label}>
-      <Accordion.Control aria-label={item.label}>
-        <AccordionLabel {...item} />
-      </Accordion.Control>
-      <Accordion.Panel>
-        <Text size="sm">{item.content}</Text>
-      </Accordion.Panel>
-    </Accordion.Item>
-  ));
-  return (
-    <Accordion p="m" chevronPosition="right" variant="contained" radius="md">
-      {items}
-    </Accordion>
-  );
-}
-export default UserPanel;
