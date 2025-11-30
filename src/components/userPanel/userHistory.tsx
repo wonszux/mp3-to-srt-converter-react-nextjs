@@ -1,69 +1,286 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Group, Container, Text, Accordion } from '@mantine/core'
+import { useState, useEffect } from "react";
+import {
+  Group,
+  Text,
+  Accordion,
+  Box,
+  Pagination,
+  ActionIcon,
+  Tooltip,
+  Loader,
+  Alert,
+} from "@mantine/core";
+import {
+  IconDownload,
+  IconEdit,
+  IconTrash,
+  IconAlertCircle,
+} from "@tabler/icons-react";
 
-const charactersList = [
-  {
-    id: 'bender',
-    label: 'Bender Bending Rodríguez',
-    description: 'Fascinated with cooking, though has no sense of taste',
-    content:
-      "Bender Bending Rodríguez, (born September 4, 2996), designated Bending Unit 22, and commonly known as Bender, is a bending unit created by a division of MomCorp in Tijuana, Mexico, and his serial number is 2716057. His mugshot id number is 01473. He is Fry's best friend.",
-  },
-
-  {
-    id: 'carol',
-    label: 'Carol Miller',
-    description: 'One of the richest people on Earth',
-    content:
-      "Carol Miller (born January 30, 2880), better known as Mom, is the evil chief executive officer and shareholder of 99.7% of Momcorp, one of the largest industrial conglomerates in the universe and the source of most of Earth's robots. She is also one of the main antagonists of the Futurama series.",
-  },
-
-  {
-    id: 'homer',
-    label: 'Homer Simpson',
-    description: 'Overweight, lazy, and often ignorant',
-    content:
-      'Homer Jay Simpson (born May 12) is the main protagonist and one of the five main characters of The Simpsons series(or show). He is the spouse of Marge Simpson and father of Bart, Lisa and Maggie Simpson.',
-  },
-]
+interface TranscribedFile {
+  id: string;
+  originalName: string;
+  srtUrl: string;
+  transcriptionPreview: string;
+  fullContent: string;
+  createdAt: string;
+}
 
 interface AccordionLabelProps {
-  label: string
-  description: string
+  label: string;
+  description: string;
 }
 
 function AccordionLabel({ label, description }: AccordionLabelProps) {
   return (
     <Group wrap="nowrap">
-      <div>
-        <Text>{label}</Text>
-        <Text size="sm" c="dimmed" fw={400}>
-          {description}
-        </Text>
-      </div>
+      <Text fw={500}>{label}</Text>
+      <Text size="sm" c="dimmed" fw={400}>
+        {description}
+      </Text>
     </Group>
-  )
+  );
 }
 
-function UserHistory() {
-  const items = charactersList.map((item) => (
-    <Accordion.Item value={item.id} key={item.label}>
-      <Accordion.Control aria-label={item.label}>
-        <AccordionLabel {...item} />
-      </Accordion.Control>
-      <Accordion.Panel>
-        <Text size="sm">{item.content}</Text>
-      </Accordion.Panel>
-    </Accordion.Item>
-  ))
-  return (
-    <Container>
-      <Accordion p="md" m="md" chevronPosition="right" variant="contained" radius="md">
-        {items}
-      </Accordion>
-    </Container>
-  )
+interface UserHistoryProps {
+  userId: string;
 }
-export default UserHistory
+
+function UserHistory({ userId }: UserHistoryProps) {
+  const [files, setFiles] = useState<TranscribedFile[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [activePage, setActivePage] = useState(1);
+  const itemsPerPage = 5;
+
+  useEffect(() => {
+    if (userId) {
+      fetchTranscribedFiles();
+    }
+  }, [userId]);
+
+  const fetchTranscribedFiles = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await fetch(`/api/transcribed-files?userId=${userId}`);
+
+      if (!response.ok) {
+        throw new Error("Nie udało się pobrać plików");
+      }
+
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.error || "Błąd podczas pobierania plików");
+      }
+
+      setFiles(data.files || []);
+    } catch (err) {
+      console.error("Błąd podczas pobierania plików:", err);
+      setError(err instanceof Error ? err.message : "Nieznany błąd");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDownload = async (fileId: string, fileName: string) => {
+    try {
+      const response = await fetch(`/api/download-srt?fileId=${fileId}`);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Nie udało się pobrać pliku");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+
+      // Usuń rozszerzenie z nazwy i dodaj .srt
+      const nameWithoutExt = fileName.replace(/\.[^/.]+$/, "");
+      a.download = `${nameWithoutExt}.srt`;
+
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error("Błąd podczas pobierania:", error);
+      alert(
+        error instanceof Error
+          ? error.message
+          : "Nie udało się pobrać pliku SRT"
+      );
+    }
+  };
+
+  const handleEdit = (fileId: string) => {
+    // TODO: Implementacja edycji - np. przekierowanie do edytora
+    console.log("Edytuj plik:", fileId);
+    alert(`Edycja pliku ${fileId} - funkcja do implementacji`);
+  };
+
+  const handleDelete = async (fileId: string) => {
+    if (
+      !confirm(
+        "Czy na pewno chcesz usunąć ten plik? Ta operacja jest nieodwracalna."
+      )
+    ) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/delete-file?fileId=${fileId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Nie udało się usunąć pliku");
+      }
+
+      // Usuń plik z lokalnego stanu
+      setFiles(files.filter((f) => f.id !== fileId));
+
+      // Jeśli usunęliśmy ostatni element na stronie, cofnij stronę
+      const newFilesCount = files.length - 1;
+      const newTotalPages = Math.ceil(newFilesCount / itemsPerPage);
+      if (activePage > newTotalPages && newTotalPages > 0) {
+        setActivePage(newTotalPages);
+      }
+    } catch (error) {
+      console.error("Błąd podczas usuwania:", error);
+      alert(
+        error instanceof Error ? error.message : "Nie udało się usunąć pliku"
+      );
+    }
+  };
+
+  // Paginacja
+  const totalPages = Math.ceil(files.length / itemsPerPage);
+  const startIndex = (activePage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentFiles = files.slice(startIndex, endIndex);
+
+  if (loading) {
+    return (
+      <Box p="md" m="md" mx="120px">
+        <Group justify="center" py="xl">
+          <Loader size="lg" />
+          <Text>Ładowanie przetranskrybowanych plików...</Text>
+        </Group>
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box p="md" m="md" mx="120px">
+        <Alert icon={<IconAlertCircle size={16} />} title="Błąd" color="red">
+          {error}
+        </Alert>
+      </Box>
+    );
+  }
+
+  if (files.length === 0) {
+    return (
+      <Box p="md" m="md" mx="120px">
+        <Alert
+          icon={<IconAlertCircle size={16} />}
+          title="Brak plików"
+          color="blue"
+        >
+          Nie masz jeszcze żadnych przetranskrybowanych plików. Prześlij i
+          przetranskrybuj swój pierwszy plik audio!
+        </Alert>
+      </Box>
+    );
+  }
+
+  const items = currentFiles.map((item) => (
+    <Box key={item.id} mb="md">
+      <Accordion chevronPosition="right" variant="contained" radius="md">
+        <Accordion.Item value={item.id}>
+          <Accordion.Control aria-label={item.originalName}>
+            <AccordionLabel
+              label={item.originalName}
+              description={item.transcriptionPreview}
+            />
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Box>
+              <Text size="sm" mb="md" style={{ whiteSpace: "pre-wrap" }}>
+                {item.fullContent}
+              </Text>
+
+              <Group gap="xs" mt="md">
+                <Tooltip label="Pobierz plik SRT">
+                  <ActionIcon
+                    variant="light"
+                    color="blue"
+                    size="lg"
+                    onClick={() => handleDownload(item.id, item.originalName)}
+                  >
+                    <IconDownload size={18} />
+                  </ActionIcon>
+                </Tooltip>
+
+                <Tooltip label="Edytuj transkrypcję">
+                  <ActionIcon
+                    variant="light"
+                    color="yellow"
+                    size="lg"
+                    onClick={() => handleEdit(item.id)}
+                  >
+                    <IconEdit size={18} />
+                  </ActionIcon>
+                </Tooltip>
+
+                <Tooltip label="Usuń plik">
+                  <ActionIcon
+                    variant="light"
+                    color="red"
+                    size="lg"
+                    onClick={() => handleDelete(item.id)}
+                  >
+                    <IconTrash size={18} />
+                  </ActionIcon>
+                </Tooltip>
+              </Group>
+            </Box>
+          </Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
+    </Box>
+  ));
+
+  return (
+    <Box p="md" m="md" mx="120px">
+      <Text size="xl" fw={700} mb="lg">
+        Historia transkrypcji ({files.length})
+      </Text>
+
+      {items}
+
+      {totalPages > 1 && (
+        <Group justify="center" mt="xl">
+          <Pagination
+            value={activePage}
+            onChange={setActivePage}
+            total={totalPages}
+            size="md"
+            withEdges
+          />
+        </Group>
+      )}
+    </Box>
+  );
+}
+
+export default UserHistory;
