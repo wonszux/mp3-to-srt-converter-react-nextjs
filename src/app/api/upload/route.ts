@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     const fileId = randomUUID();
     const filePath = `${userId}/${fileId}-${uploadFile.name}`;
 
-    console.log("⬆️ Uploading to Supabase:", {
+    console.log("Uploading to Supabase:", {
       bucket: "uploads",
       path: filePath,
     });
