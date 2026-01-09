@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
   Group,
   Text,
@@ -49,6 +50,7 @@ interface UserHistoryProps {
 }
 
 function UserHistory({ userId }: UserHistoryProps) {
+  const router = useRouter();
   const [files, setFiles] = useState<TranscribedFile[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -101,7 +103,6 @@ function UserHistory({ userId }: UserHistoryProps) {
       const a = document.createElement("a");
       a.href = url;
 
-      // Usuń rozszerzenie z nazwy i dodaj .srt
       const nameWithoutExt = fileName.replace(/\.[^/.]+$/, "");
       a.download = `${nameWithoutExt}.srt`;
 
@@ -120,9 +121,7 @@ function UserHistory({ userId }: UserHistoryProps) {
   };
 
   const handleEdit = (fileId: string) => {
-    // TODO: Implementacja edycji - np. przekierowanie do edytora
-    console.log("Edytuj plik:", fileId);
-    alert(`Edycja pliku ${fileId} - funkcja do implementacji`);
+    router.push(`/user-panel/edit/${fileId}`);
   };
 
   const handleDelete = async (fileId: string) => {
@@ -144,10 +143,8 @@ function UserHistory({ userId }: UserHistoryProps) {
         throw new Error(errorData.error || "Nie udało się usunąć pliku");
       }
 
-      // Usuń plik z lokalnego stanu
       setFiles(files.filter((f) => f.id !== fileId));
 
-      // Jeśli usunęliśmy ostatni element na stronie, cofnij stronę
       const newFilesCount = files.length - 1;
       const newTotalPages = Math.ceil(newFilesCount / itemsPerPage);
       if (activePage > newTotalPages && newTotalPages > 0) {

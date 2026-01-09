@@ -5,8 +5,7 @@ export class TranscriptionService {
     this.baseUrl = baseUrl;
   }
 
-  // Rozpoczyna proces transkrypcji dla podanego pliku
-
+  // Rozpoczyna proces transkrypcji dla pliku
   async startTranscription(
     fileId: string,
     language?: string
@@ -44,12 +43,12 @@ export class TranscriptionService {
     }
   }
 
-  // Zwraca URL do pliku SRT w storage
+  // Zwraca URL do pobrania pliku SRT
   getDownloadUrl(fileId: string): string {
     return `${this.baseUrl}/download-srt?fileId=${fileId}`;
   }
 
-  //  Zwraca plik SRT jako Blob
+  // Pobiera plik SRT jako Blob
   async downloadSrtFile(fileId: string): Promise<Blob> {
     const response = await fetch(this.getDownloadUrl(fileId));
 
@@ -60,7 +59,7 @@ export class TranscriptionService {
     return await response.blob();
   }
 
-  // Pobiera i zapisuje plik w przeglądarce
+  // Inicjuje pobieranie pliku w przeglądarce
   async triggerDownload(fileId: string, filename?: string): Promise<void> {
     const blob = await this.downloadSrtFile(fileId);
     const url = window.URL.createObjectURL(blob);
@@ -72,8 +71,7 @@ export class TranscriptionService {
     window.URL.revokeObjectURL(url);
     document.body.removeChild(a);
   }
-
-  // sprawdza status generowania SRT
+  // Sprawdza status generowania srt
   async checkStatus(fileId: string): Promise<TranscriptionStatus> {
     try {
       const response = await fetch(
@@ -101,7 +99,6 @@ export class TranscriptionService {
   }
 }
 
-// To co zwracają funkcje powyżej
 export interface TranscriptionResult {
   success: boolean;
   fileId?: string;

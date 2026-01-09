@@ -1,12 +1,7 @@
 import { NextResponse } from "next/server";
-import { db } from "@/db/drizzle";
-import { file as fileTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { serverTranscriptionManager } from "@/lib/server-transcription-manager";
 
-// URL Docker
-const TRANSCRIPTION_SERVICE_URL =
-  process.env.TRANSCRIPTION_SERVICE_URL || "http://localhost:5000";
-
+// Inicjuje transkrypcję pliku
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -19,59 +14,20 @@ export async function POST(req: Request) {
       );
     }
 
-    // Pobierz informacje o pliku z bazy danych
-    const fileRecord = await db
-      .select()
-      .from(fileTable)
-      .where(eq(fileTable.id, fileId))
-      .limit(1);
+    const result = await serverTranscriptionManager.startTranscription(
+      fileId,
+      language
+    );
 
-    if (!fileRecord || fileRecord.length === 0) {
-      return NextResponse.json({ error: "File not found" }, { status: 404 });
-    }
-
-    const file = fileRecord[0];
-
-    // Sprawdź czy plik już nie jest przetwarzany
-    if (file.status === "processing") {
-      return NextResponse.json(
-        { error: "File is already being processed" },
-        { status: 409 }
-      );
-    }
-
-    if (file.status === "completed") {
+    if (result.alreadyCompleted) {
       return NextResponse.json(
         {
           message: "File already transcribed",
-          srtUrl: file.srtUrl,
+          srtUrl: result.srtUrl,
         },
         { status: 200 }
       );
     }
-
-    // Wyślij żądanie do serwisu transkrypcji
-    const transcriptionResponse = await fetch(
-      `${TRANSCRIPTION_SERVICE_URL}/transcribe`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fileId: file.id,
-          audioUrl: file.url,
-          language: language || "auto",
-        }),
-      }
-    );
-
-    if (!transcriptionResponse.ok) {
-      const errorData = await transcriptionResponse.json();
-      throw new Error(errorData.error || "Transcription service error");
-    }
-
-    const result = await transcriptionResponse.json();
 
     return NextResponse.json({
       success: true,
@@ -82,9 +38,15 @@ export async function POST(req: Request) {
     });
   } catch (err) {
     console.error("Transcription API error:", err);
-    return NextResponse.json(
-      { error: err instanceof Error ? err.message : "Server error" },
-      { status: 500 }
-    );
+
+    const errorMessage = err instanceof Error ? err.message : "Server error";
+    const status =
+      errorMessage === "File not found"
+        ? 404
+        : errorMessage === "File is already being processed"
+        ? 409
+        : 500;
+
+    return NextResponse.json({ error: errorMessage }, { status });
   }
 }

@@ -17,7 +17,7 @@ import { useState } from "react";
 
 import classes from "./AuthenticationTitle.module.css";
 import GoogleButton from "../googleButton/googleButton";
-import { signIn } from "@/server/users";
+import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
@@ -32,19 +32,29 @@ export default function LoginForm() {
     setLoading(true);
     setError(null);
     try {
-      await signIn(email, password, rememberMe);
+      const { error } = await authClient.signIn.email({
+        email,
+        password,
+        rememberMe,
+      });
+
+      if (error) {
+        throw error;
+      }
+
       router.push("/user-panel");
       router.refresh();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Błąd podczas logowania: ", error);
-      if (error instanceof Error) {
-        if (error.message.includes("Invalid email")) {
-          setError("Nieprawidłowy e-mail lub hasło.");
-        } else {
-          setError(error.message);
-        }
+      const message = error.message || "Wystąpił nieznany błąd.";
+      if (
+        message.includes("Invalid email") ||
+        message.includes("Invalid password") ||
+        message.includes("Invalid credentials")
+      ) {
+        setError("Nieprawidłowy e-mail lub hasło.");
       } else {
-        setError("Wystąpił nieznany błąd.");
+        setError(message);
       }
     } finally {
       setLoading(false);

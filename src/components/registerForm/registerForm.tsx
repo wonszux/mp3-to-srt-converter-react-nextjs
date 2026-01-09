@@ -17,7 +17,7 @@ import {
 
 import classes from "./AuthenticationTitle.module.css";
 import GoogleButton from "../googleButton/googleButton";
-import { signUp } from "@/server/users";
+
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 
@@ -33,10 +33,19 @@ export default function RegisterForm() {
     let registrationSuccess = false;
 
     try {
-      await signUp(email, password, name);
+      const { error } = await authClient.signUp.email({
+        email,
+        password,
+        name,
+      });
+
+      if (error) {
+        throw error;
+      }
+
       console.log("Rejestracja pomyślna!");
       registrationSuccess = true;
-    } catch (error) {
+    } catch (error: any) {
       console.error("Błąd rejestracji:", error);
     } finally {
       setLoading(false);

@@ -4,6 +4,7 @@ import { file as fileTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { storageClient } from "@/lib/storage-client";
 
+// Usuwa plik srt
 export async function DELETE(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
@@ -18,7 +19,6 @@ export async function DELETE(req: Request) {
       );
     }
 
-    // Pobierz informacje o pliku z bazy danych
     const fileRecord = await db
       .select()
       .from(fileTable)
@@ -33,7 +33,6 @@ export async function DELETE(req: Request) {
     const file = fileRecord[0];
     const supabase = storageClient;
 
-    // Wyciągnij ścieżkę z URL
     const urlParts = file.url.split("/uploads/");
     if (urlParts.length >= 2) {
       const filePath = urlParts[1];
@@ -43,18 +42,15 @@ export async function DELETE(req: Request) {
         path: filePath,
       });
 
-      // Usuń plik audio z Supabase
       const { error: deleteAudioError } = await supabase.storage
         .from("uploads")
         .remove([filePath]);
 
       if (deleteAudioError) {
         console.error("Error deleting audio file:", deleteAudioError);
-        // Kontynuuj mimo błędu - plik może już nie istnieć
       }
     }
 
-    // Usuń plik SRT jeśli istnieje
     if (file.srtUrl) {
       const srtPath = `transcriptions/${fileId}.srt`;
 
@@ -69,11 +65,10 @@ export async function DELETE(req: Request) {
 
       if (deleteSrtError) {
         console.error("Error deleting SRT file:", deleteSrtError);
-        // Kontynuuj mimo błędu - plik może już nie istnieć
       }
     }
 
-    // Usuń wpis z bazy danych
+    // usuwa wpis z bazy danych
     await db.delete(fileTable).where(eq(fileTable.id, fileId));
 
     console.log("File deleted successfully:", fileId);
