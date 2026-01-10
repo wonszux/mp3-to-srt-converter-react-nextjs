@@ -114,7 +114,6 @@ export default function LoginForm() {
           radius="xl"
           onClick={handleSignIn}
           loading={loading}
-          color="orange"
         >
           Zaloguj się
         </Button>

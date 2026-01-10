@@ -5,6 +5,7 @@ import { authClient } from "@/lib/auth-client";
 
 import UserHistory from "@/components/userPanel/userHistory";
 import FileInput from "../fileInput/fileinput";
+import SettingsTab from "@/components/userPanel/SettingsTab";
 
 export default function UserPanel() {
   const { data } = authClient.useSession();
@@ -40,7 +41,9 @@ export default function UserPanel() {
         )}
       </Tabs.Panel>
 
-      <Tabs.Panel value="settings">Settings tab content</Tabs.Panel>
+      <Tabs.Panel value="settings">
+        <SettingsTab />
+      </Tabs.Panel>
     </Tabs>
   );
 }

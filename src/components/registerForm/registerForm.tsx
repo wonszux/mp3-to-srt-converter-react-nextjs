@@ -115,7 +115,6 @@ export default function RegisterForm() {
           radius="xl"
           onClick={handleSignUp}
           loading={loading}
-          color="orange"
         >
           Utwórz konto
         </Button>

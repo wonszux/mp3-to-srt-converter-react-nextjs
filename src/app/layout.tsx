@@ -1,5 +1,7 @@
 import "@mantine/core/styles.css";
 import "@mantine/dropzone/styles.css";
+import { Notifications } from "@mantine/notifications";
+import "@mantine/notifications/styles.css";
 import {
   ColorSchemeScript,
   MantineProvider,
@@ -57,6 +59,7 @@ export default function RootLayout({
       </head>
       <body>
         <MantineProvider forceColorScheme="dark" theme={theme}>
+          <Notifications />
           <ClientLayout>{children}</ClientLayout>
         </MantineProvider>
       </body>
